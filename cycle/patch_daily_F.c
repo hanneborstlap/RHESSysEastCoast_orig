@@ -1831,6 +1831,7 @@ double inundation_duration[] = {
 		/*--------------------------------------------------------------*/
 		net_inflow = 0.0;
 		duration = 0.0;
+	    	patch[0].detention_store += patch[0].ex_inundation_depth;
 		if (patch[0].detention_store > ZERO) {
             
 			/*------------------------------------------------------------------------*/
@@ -1890,7 +1891,7 @@ double inundation_duration[] = {
             // 1/86400 = 1.15741e-05
 	    if (patch[0].ex_inundation_dur > ZERO) {
 	    	duration = patch[0].ex_inundation_dur/24;
-	    	net_inflow += patch[0].ex_inundation_depth;
+	    	// net_inflow += patch[0].ex_inundation_depth;
 	    } 
 	    else { 
             duration = 0.00001157407 * (zone[0].rain_duration <= ZERO? zone[0].metv.dayl : zone[0].rain_duration ); //makes rain all daytime
