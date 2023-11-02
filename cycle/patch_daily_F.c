@@ -1888,14 +1888,13 @@ double inundation_duration[] = {
             // this is the first patch[0].S call in patch_daily_F
             // in patch_daily_I.c, patch[0].S = (patch[0].rz_storage+patch[0].unsat_storage)/patch[0].sat_deficit;
             // 1/86400 = 1.15741e-05
-	    if (patch[0].ex_inundation_dur > 0.0) {
-	    	duration = patch[0].ex_inundation_dur;
+	    if (patch[0].ex_inundation_dur > ZERO) {
+	    	duration = patch[0].ex_inundation_dur/24;
 	    	net_inflow += patch[0].ex_inundation_depth;
 	    } 
 	    else { 
             duration = 0.00001157407 * (zone[0].rain_duration <= ZERO? zone[0].metv.dayl : zone[0].rain_duration ); //makes rain all daytime
-	    } 
-	    patch[0].test_variable = duration; 
+	    }  
             infiltration = compute_infiltration(
                 command_line[0].verbose_flag,
                 patch[0].sat_deficit_z,
@@ -1920,7 +1919,8 @@ double inundation_duration[] = {
 		/* determine fate of hold infiltration excess in detention store */
 		/* infiltration excess will removed during routing portion	*/
 		/*--------------------------------------------------------------*/
-		
+
+	    	patch[0].test_variable = infiltration;
 		infiltration = min(infiltration,patch[0].detention_store);
 
 		/*--------------------------------------------------------------*/
