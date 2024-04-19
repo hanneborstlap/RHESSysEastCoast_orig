@@ -509,8 +509,9 @@ void		patch_daily_F(
 	
 	patch[0].T_canopy = zone[0].metv.tavg;
 	patch[0].T_canopy_final = 0.0;
-	
 
+	patch[0].irrigation_surf = 0.0; 
+	
 	if ( command_line[0].verbose_flag == -5 ){
         printf("\nPATCH DAILY F:");
 	}
@@ -609,6 +610,7 @@ void		patch_daily_F(
             
             // calculate total water gain from the source to this patch
             totalTransferWater += patch[0].innundation_list[d].drainIN_irrigation[i].transfer_flux_sub + patch[0].innundation_list[d].drainIN_irrigation[i].transfer_flux_surf;
+	    patch[0].irrigation_test = patch[0].innundation_list[d].drainIN_irrigation[i].transfer_flux_surf; 
         }// end of for loop i; number of sources
         if(patch[0].innundation_list[d].num_drainIN_irrigation>0){ patch[0].grassIrrigation_m = totalTransferWater; }
         // note:: solutes and water are transferred by the processes above
