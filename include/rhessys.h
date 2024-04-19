@@ -1665,6 +1665,7 @@ struct patch_object
         //double  active_zone_z;
         struct  zone_object             *zone; /* parent zone *///<<------------------- not set
         double  grassIrrigation_m;
+	double irrigation_surf 
         double  septicReleaseQ_m;
         double  sewerdrained; //<------- Spet 28 tracking how much is subsurface sewer drain
             double  sewerdrained_NO3;
@@ -1719,6 +1720,8 @@ struct patch_object
             double* rootzone_end_refcap;
             double rootzone_scale_ref; // inverse of the run between two reference, e.g, 0.5m - 1.0m
             double zeroRootCoef;
+
+
             
 /*----------------------------------------------------------*/
 /*      Surface Hydrology  stuff                        */
