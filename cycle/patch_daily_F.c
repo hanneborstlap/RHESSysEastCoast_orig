@@ -553,41 +553,48 @@ struct date createDateFromDateString(const char* dateString) {
 	// INUNDATION SECTION, TRYING TO READ IN FILES. 
 
     FILE *file_ex_inundation_depth;
-    file_ex_inundation_depth = fopen("inundation/inundation_depth.txt", "r");
-    double ex_inundation_depth[len(file_ex_inundation_depth)];
+    file = fopen("inundation/inundation_depth.txt", "r");
+    int count = 0;
+    double temp;
+	    
+    while (fscanf(file_ex_inundation_depth, "%d", &temp) == 1) {
+        count++;
+    }
 
-    int i;
-    for (i = 0; i < len(file_ex_inundation_depth); i++)
+    double ex_inundation_depth[count];
+
+    int i = 0;
+    for (i = 0; i < count; i++)
     {
         fscanf(file_ex_inundation_depth, "%d", &ex_inundation_depth[i]);
     }
 
     FILE *file_ex_inundation_dur;
     file_ex_inundation_dur = fopen("inundation/inundation_dur.txt", "r");
-    double ex_inundation_dur[len(file_ex_inundation_dur)];
+    double ex_inundation_dur[count];
 
     int i;
-    for (i = 0; i < len(file_ex_inundation_dur); i++)
+    for (i = 0; i < count; i++)
     {
         fscanf(file_ex_inundation_dur, "%d", &ex_inundation_dur[i]);
     }
 
     FILE *file_ex_inundation_date;
     file_ex_inundation_date = fopen("inundation/inundation_date.txt", "r");
-    char* ex_inundation_date[len(file_ex_inundation_date)];
+    char* ex_inundation_date[count];
 
     int i;
-    for (i = 0; i < len(file_ex_inundation_date); i++)
+    for (i = 0; i < count; i++)
     {
         fscanf(file_ex_inundation_date, "%s", &ex_inundation_date[i]);
     }
 
     FILE *file_ex_inundation_patchID;
     file_ex_inundation_patchID = fopen("inundation/inundation_patchID.txt", "r");
-    char* ex_inundation_patchID[len(file_ex_inundation_patchID)];
+    char* ex_inundation_patchID[count];
 
     int i;
-    for (i = 0; i < len(file_ex_inundation_date); i++)
+    for (i = 0; i < count; i++)
     {
         fscanf(file_ex_inundation_date, "%s", &ex_inundation_date[i]);
     }
