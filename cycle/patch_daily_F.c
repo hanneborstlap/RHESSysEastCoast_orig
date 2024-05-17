@@ -574,23 +574,23 @@ struct date createDateFromDateString(const char* dateString) {
     char* ex_inundation_date[count_t];
     double ex_inundation_patchID[count_t];
 	    
-    int i = 0;
-    for (i = 0; i < count_t; i++)
+    int ii = 0;
+    for (ii = 0; ii < count_t; ii++)
     {
-        fscanf(file_ex_inundation_depth, "%d", &ex_inundation_depth[i]);
-	fscanf(file_ex_inundation_dur, "%d", &ex_inundation_dur[i]);
-	fscanf(file_ex_inundation_date, "%s", &inundation_date[i]);
-	fscanf(file_ex_inundation_patchID, "%s", &inundation_PatchID[i]);
+        fscanf(file_ex_inundation_depth, "%d", &ex_inundation_depth[ii]);
+	fscanf(file_ex_inundation_dur, "%d", &ex_inundation_dur[ii]);
+	fscanf(file_ex_inundation_date, "%s", &ex_inundation_date[ii]);
+	fscanf(file_ex_inundation_patchID, "%s", &ex_inundation_PatchID[ii]);
     }
 
-    int count = sizeof(inundation_PatchID) / sizeof(inundation_PatchID[0]);
+    int count = sizeof(ex_inundation_PatchID) / sizeof(ex_inundation_PatchID[0]);
 
     int i = 0;
     // Loop to assign correct variables to each patch and date 
      for (int i = 0; i < count; i++) {
-		struct date inundation_date_f = createDateFromDateString(inundation_date[i]);
+		struct date inundation_date_f = createDateFromDateString(ex_inundation_date[i]);
         
-		if (patch[0].ID == inundation_PatchID[i]) {
+		if (patch[0].ID == ex_inundation_PatchID[i]) {
 		    if (julday(inundation_date_f) == julday(current_date)) {
 			   patch[0].ex_inundation_depth = ex_inundation_depth[i]; 
 			   patch[0].ex_inundation_dur = ex_inundation_dur[i];; 
