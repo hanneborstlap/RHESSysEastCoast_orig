@@ -553,62 +553,47 @@ struct date createDateFromDateString(const char* dateString) {
 	// INUNDATION SECTION, TRYING TO READ IN FILES. 
 
     FILE *file_ex_inundation_depth;
-    file = fopen("inundation/inundation_depth.txt", "r");
-    int count = 0;
-    double temp;
-	    
-    while (fscanf(file_ex_inundation_depth, "%d", &temp) == 1) {
-        count++;
+    FILE *file_ex_inundation_dur;
+    FILE *file_ex_inundation_date;
+    FILE *file_ex_inundation_patchID;
+
+    file_ex_inundation_depth = fopen("inundation/inundation_depth.txt", "r");
+    file_ex_inundation_dur = fopen("inundation/inundation_dur.txt", "r");
+    file_ex_inundation_date = fopen("inundation/inundation_date.txt", "r");
+    file_ex_inundation_patchID = fopen("inundation/inundation_patchID.txt", "r");
+
+    int count_t = 0;
+    double temp_in;
+
+    while (fscanf(file_ex_inundation_depth, "%d", &temp_in) == 1) {
+        count_t++;
     }
 
-    double ex_inundation_depth[count];
-
+    double ex_inundation_dur[count_t];
+    double ex_inundation_depth[count_t];
+    char* ex_inundation_date[count_t];
+    double ex_inundation_patchID[count_t];
+	    
     int i = 0;
-    for (i = 0; i < count; i++)
+    for (i = 0; i < count_t; i++)
     {
         fscanf(file_ex_inundation_depth, "%d", &ex_inundation_depth[i]);
-    }
-
-    FILE *file_ex_inundation_dur;
-    file_ex_inundation_dur = fopen("inundation/inundation_dur.txt", "r");
-    double ex_inundation_dur[count];
-
-    int i;
-    for (i = 0; i < count; i++)
-    {
-        fscanf(file_ex_inundation_dur, "%d", &ex_inundation_dur[i]);
-    }
-
-    FILE *file_ex_inundation_date;
-    file_ex_inundation_date = fopen("inundation/inundation_date.txt", "r");
-    char* ex_inundation_date[count];
-
-    int i;
-    for (i = 0; i < count; i++)
-    {
-        fscanf(file_ex_inundation_date, "%s", &ex_inundation_date[i]);
-    }
-
-    FILE *file_ex_inundation_patchID;
-    file_ex_inundation_patchID = fopen("inundation/inundation_patchID.txt", "r");
-    char* ex_inundation_patchID[count];
-
-    int i;
-    for (i = 0; i < count; i++)
-    {
-        fscanf(file_ex_inundation_date, "%s", &ex_inundation_date[i]);
+	fscanf(file_ex_inundation_dur, "%d", &ex_inundation_dur[i]);
+	fscanf(file_ex_inundation_date, "%s", &inundation_date[i]);
+	fscanf(file_ex_inundation_patchID, "%s", &inundation_PatchID[i]);
     }
 
     int count = sizeof(inundation_PatchID) / sizeof(inundation_PatchID[0]);
-    
+
+    int i = 0;
     // Loop to assign correct variables to each patch and date 
      for (int i = 0; i < count; i++) {
 		struct date inundation_date_f = createDateFromDateString(inundation_date[i]);
         
 		if (patch[0].ID == inundation_PatchID[i]) {
 		    if (julday(inundation_date_f) == julday(current_date)) {
-			   patch[0].ex_inundation_depth = inundation_depth[i]; 
-			   patch[0].ex_inundation_dur = inundation_duration[i];; 
+			   patch[0].ex_inundation_depth = ex_inundation_depth[i]; 
+			   patch[0].ex_inundation_dur = ex_inundation_dur[i];; 
 		 }
     }
         // else {
