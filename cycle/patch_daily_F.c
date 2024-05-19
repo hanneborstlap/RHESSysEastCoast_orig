@@ -552,6 +552,8 @@ struct date createDateFromDateString(const char* dateString) {
 
 	// INUNDATION SECTION, TRYING TO READ IN FILES. 
 
+    fprintf("STARTING PATCH_DAILY_F \n");
+
     FILE *file_ex_inundation_depth;
     FILE *file_ex_inundation_dur;
     FILE *file_ex_inundation_date;
