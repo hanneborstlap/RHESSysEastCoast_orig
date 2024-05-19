@@ -552,7 +552,7 @@ struct date createDateFromDateString(const char* dateString) {
 
 	// INUNDATION SECTION, TRYING TO READ IN FILES. 
 
-    fprintf("STARTING PATCH_DAILY_F \n");
+    printf("STARTING PATCH_DAILY_F \n");
 
     FILE *file_ex_inundation_depth;
     FILE *file_ex_inundation_dur;
@@ -567,7 +567,7 @@ struct date createDateFromDateString(const char* dateString) {
     int count_t = 0;
     double temp_in;
 
-    fprintf(count_t,"READ IN FILES\n");
+    printf(count_t,"READ IN FILES\n");
 
     while (fscanf(file_ex_inundation_depth, "%d", &temp_in) == 1) {
         count_t++;
