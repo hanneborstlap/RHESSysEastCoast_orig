@@ -583,7 +583,7 @@ struct date createDateFromDateString(const char* dateString) {
 
     printf("READ IN FILES\n");
 
-    while (fscanf(file_ex_inundation_depth, "%d", &temp_in) == 1) {
+    while (fscanf(file_ex_inundation_depth, "%lf", &temp_in) == 1) {
         count_t++;
     }
 
