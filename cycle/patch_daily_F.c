@@ -595,12 +595,28 @@ struct date createDateFromDateString(const char* dateString) {
     double ex_inundation_patchID[count_t];
 	    
     int ii = 0;
+
     for (ii = 0; ii < count_t; ii++)
     {
-        fscanf(file_ex_inundation_depth, "%lf", &ex_inundation_depth[ii]);
-	fscanf(file_ex_inundation_dur, "%d", &ex_inundation_dur[ii]);
-	fscanf(file_ex_inundation_date, "%s", &ex_inundation_date[ii]);
-	fscanf(file_ex_inundation_patchID, "%d", &ex_inundation_patchID[ii]);
+     if (fscanf(file_ex_inundation_depth, "%lf", &ex_inundation_depth[ii]) != 1) {
+        fprintf(stderr, "Error reading ex_inundation_depth at index %d\n", ii);
+        break;
+    }
+    
+     if (fscanf(file_ex_inundation_dur, "%d", &ex_inundation_dur[ii]) != 1) {
+        fprintf(stderr, "Error reading ex_inundation_dur at index %d\n", ii);
+        break;
+    }
+    
+     if (fscanf(file_ex_inundation_date, "%s", &ex_inundation_date[ii]) != 1) {
+        fprintf(stderr, "Error reading ex_inundation_date at index %d\n", ii);
+        break;
+    }
+    
+     if (fscanf(file_ex_inundation_patchID, "%d", &ex_inundation_patchID[ii]) != 1) {
+        fprintf(stderr, "Error reading ex_inundation_patchID at index %d\n", ii);
+        break;
+     }
     }
 
     printf("%d FILES SCANNED\n");
