@@ -597,10 +597,10 @@ struct date createDateFromDateString(const char* dateString) {
     int ii = 0;
     for (ii = 0; ii < count_t; ii++)
     {
-        fscanf(file_ex_inundation_depth, "%d", &ex_inundation_depth[ii]);
+        fscanf(file_ex_inundation_depth, "%lf", &ex_inundation_depth[ii]);
 	fscanf(file_ex_inundation_dur, "%d", &ex_inundation_dur[ii]);
 	fscanf(file_ex_inundation_date, "%s", &ex_inundation_date[ii]);
-	fscanf(file_ex_inundation_patchID, "%s", &ex_inundation_patchID[ii]);
+	fscanf(file_ex_inundation_patchID, "%d", &ex_inundation_patchID[ii]);
     }
 
     int count = sizeof(ex_inundation_patchID) / sizeof(ex_inundation_patchID[0]);
