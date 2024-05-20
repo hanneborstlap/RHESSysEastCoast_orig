@@ -589,6 +589,8 @@ struct date createDateFromDateString(const char* dateString) {
 
     printf("%d FILE LENGTH\n", count_t);
 
+    rewind(file_ex_inundation_depth);
+
     double ex_inundation_dur[count_t];
     double ex_inundation_depth[count_t];
     char* ex_inundation_date[count_t];
