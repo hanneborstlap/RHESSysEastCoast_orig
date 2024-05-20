@@ -554,11 +554,6 @@ struct date createDateFromDateString(const char* dateString) {
 
     printf("STARTING PATCH_DAILY_F \n");
 
-    FILE *file_ex_inundation_depth;
-    FILE *file_ex_inundation_dur;
-    FILE *file_ex_inundation_date;
-    FILE *file_ex_inundation_patchID;
-
     FILE *file_ex_inundation_depth = fopen("inundation/inundation_depth.txt", "r");
     if (file_ex_inundation_depth == NULL) {
     	fprintf(stderr, "Error: Could not open file 'inundation/inundation_depth.txt'\n");
