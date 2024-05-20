@@ -626,9 +626,13 @@ struct date createDateFromDateString(const char* dateString) {
 
     int count = sizeof(ex_inundation_patchID) / sizeof(ex_inundation_patchID[0]);
 
+     printf("%d FILE LENGTH 2\n", count);
+
     // Loop to assign correct variables to each patch and date 
      for (int j = 0; j < count; j++) {
 		struct date inundation_date_f = createDateFromDateString(ex_inundation_date[j]);
+
+	        printf("%d DATE STRING CREATED \n");
         
 		if (patch[0].ID == ex_inundation_patchID[j]) {
 		    if (julday(inundation_date_f) == julday(current_date)) {
