@@ -629,7 +629,11 @@ struct date createDateFromDateString(const char* dateString) {
      printf("%d FILE LENGTH 2\n", count);
 
     // Loop to assign correct variables to each patch and date 
+     int j = 0; 
      for (int j = 0; j < count; j++) {
+
+	        printf("%d STARTING LOOP \n");
+	     
 		struct date inundation_date_f = createDateFromDateString(ex_inundation_date[j]);
 
 	        printf("%d DATE STRING CREATED \n");
