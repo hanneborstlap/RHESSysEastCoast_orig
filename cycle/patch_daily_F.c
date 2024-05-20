@@ -603,6 +603,8 @@ struct date createDateFromDateString(const char* dateString) {
 	fscanf(file_ex_inundation_patchID, "%d", &ex_inundation_patchID[ii]);
     }
 
+    printf("%d FILES SCANNED\n");
+
     int count = sizeof(ex_inundation_patchID) / sizeof(ex_inundation_patchID[0]);
 
     // Loop to assign correct variables to each patch and date 
@@ -615,6 +617,8 @@ struct date createDateFromDateString(const char* dateString) {
 			   patch[0].ex_inundation_dur = ex_inundation_dur[j];; 
 		 }
     }
+
+	printf("%d INUNDATION SECTION DONE, VARIABLES ASSIGNED\n");
         // else {
           //  patch[0].ex_inundation_depth = 5.0; 
 			// patch[0].ex_inundation_dur = 5.0;; 
