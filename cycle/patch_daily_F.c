@@ -560,7 +560,7 @@ struct date createDateFromDateString(const char* dateString) {
   	exit(EXIT_FAILURE);
     }
 
-    FILE *file_ex_inundation_dur = fopen("inundation/inundation_duration.txt", "r");
+    FILE *file_ex_inundation_dur = fopen("inundation/inundation_dur.txt", "r");
     if (file_ex_inundation_dur == NULL) {
  	fprintf(stderr, "Error: Could not open file 'inundation/inundation_dur.txt'\n");
         exit(EXIT_FAILURE);
