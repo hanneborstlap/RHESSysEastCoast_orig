@@ -598,10 +598,6 @@ struct date createDateFromDateString(const char* dateString) {
 
     for (ii = 0; ii < count_t; ii++)
     {
-     if (fscanf(file_ex_inundation_depth, "%lf", &ex_inundation_depth[ii]) != 1) {
-        fprintf(stderr, "Error reading ex_inundation_depth at index %d\n", ii);
-        break;
-    }
     
      if (fscanf(file_ex_inundation_dur, "%d", &ex_inundation_dur[ii]) != 1) {
         fprintf(stderr, "Error reading ex_inundation_dur at index %d\n", ii);
@@ -610,6 +606,11 @@ struct date createDateFromDateString(const char* dateString) {
     
      if (fscanf(file_ex_inundation_date, "%s", &ex_inundation_date[ii]) != 1) {
         fprintf(stderr, "Error reading ex_inundation_date at index %d\n", ii);
+        break;
+    }
+
+     if (fscanf(file_ex_inundation_depth, "%lf", &ex_inundation_depth[ii]) != 1) {
+        fprintf(stderr, "Error reading ex_inundation_depth at index %d\n", ii);
         break;
     }
     
