@@ -633,7 +633,9 @@ struct date createDateFromDateString(const char* dateString) {
      for (int jj = 0; jj < count; jj++) {
 
 	        printf("%d STARTING LOOP \n");
-	     
+
+	        printf("ex_inundation_date[%d]: %s\n", jj, ex_inundation_date[jj]);
+     
 		struct date inundation_date_f = createDateFromDateString(ex_inundation_date[jj]);
 
 	        printf("%d DATE STRING CREATED \n");
