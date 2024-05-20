@@ -559,15 +559,34 @@ struct date createDateFromDateString(const char* dateString) {
     FILE *file_ex_inundation_date;
     FILE *file_ex_inundation_patchID;
 
-    file_ex_inundation_depth = fopen("inundation/inundation_depth.txt", "r");
-    file_ex_inundation_dur = fopen("inundation/inundation_dur.txt", "r");
-    file_ex_inundation_date = fopen("inundation/inundation_date.txt", "r");
-    file_ex_inundation_patchID = fopen("inundation/inundation_patchID.txt", "r");
+    FILE *file_ex_inundation_depth = fopen("inundation/inundation_depth.txt", "r");
+    if (file_ex_inundation_depth == NULL) {
+    	fprintf(stderr, "Error: Could not open file 'inundation/inundation_depth.txt'\n");
+  	exit(EXIT_FAILURE);
+    }
+
+    FILE *file_ex_inundation_dur = fopen("inundation/inundation_dur.txt", "r");
+    if (file_ex_inundation_dur == NULL) {
+ 	fprintf(stderr, "Error: Could not open file 'inundation/inundation_dur.txt'\n");
+        exit(EXIT_FAILURE);
+    }
+
+    FILE *file_ex_inundation_date = fopen("inundation/inundation_date.txt", "r");
+    if (file_ex_inundation_date == NULL) {
+      fprintf(stderr, "Error: Could not open file 'inundation/inundation_date.txt'\n");
+      exit(EXIT_FAILURE);
+    }
+
+    FILE *file_ex_inundation_patchID = fopen("inundation/inundation_patchID.txt", "r");
+    if (file_ex_inundation_patchID == NULL) {
+      fprintf(stderr, "Error: Could not open file 'inundation/inundation_patchID.txt'\n");
+      exit(EXIT_FAILURE);
+    }
 
     int count_t = 0;
     double temp_in;
 
-    printf(count_t,"READ IN FILES\n");
+    printf("READ IN FILES\n");
 
     while (fscanf(file_ex_inundation_depth, "%d", &temp_in) == 1) {
         count_t++;
