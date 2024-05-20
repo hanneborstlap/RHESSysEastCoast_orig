@@ -629,19 +629,19 @@ struct date createDateFromDateString(const char* dateString) {
      printf("%d FILE LENGTH 2\n", count);
 
     // Loop to assign correct variables to each patch and date 
-     int j = 0; 
-     for (int j = 0; j < count; j++) {
+     int jj = 0; 
+     for (int jj = 0; jj < count; jj++) {
 
 	        printf("%d STARTING LOOP \n");
 	     
-		struct date inundation_date_f = createDateFromDateString(ex_inundation_date[j]);
+		struct date inundation_date_f = createDateFromDateString(ex_inundation_date[jj]);
 
 	        printf("%d DATE STRING CREATED \n");
         
-		if (patch[0].ID == ex_inundation_patchID[j]) {
+		if (patch[0].ID == ex_inundation_patchID[jj]) {
 		    if (julday(inundation_date_f) == julday(current_date)) {
-			   patch[0].ex_inundation_depth = ex_inundation_depth[j]; 
-			   patch[0].ex_inundation_dur = ex_inundation_dur[j];; 
+			   patch[0].ex_inundation_depth = ex_inundation_depth[jj]; 
+			   patch[0].ex_inundation_dur = ex_inundation_dur[jj];; 
 		 }
     }
 
