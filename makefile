@@ -575,6 +575,8 @@ $(OBJ)/assign_drainIN.o: init/assign_drainIN.c
 	$(CC) -c $(CFLAGS) -I include init/assign_drainIN.c -o $(OBJ)/assign_drainIN.o	
 $(OBJ)/assign_inundation.o: init/assign_inundation.c
 	$(CC) -c $(CFLAGS) -I include init/assign_inundation.c -o $(OBJ)/assign_inundation.o	
+$(OBJ)/assign_inundation_size.o: init/assign_inundation_size.c
+	$(CC) -c $(CFLAGS) -I include init/assign_inundation_size.c -o $(OBJ)/assign_inundation_size.o
 $(OBJ)/assign_base_station.o: init/assign_base_station.c
 	$(CC) -c $(CFLAGS) -I include init/assign_base_station.c -o $(OBJ)/assign_base_station.o
 $(OBJ)/assign_base_station_xy.o: init/assign_base_station_xy.c
