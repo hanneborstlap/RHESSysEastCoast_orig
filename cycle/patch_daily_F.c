@@ -536,8 +536,6 @@ void		patch_daily_F(
 	        // printf("%d STARTING LOOP \n");
 
 	        // printf("ex_inundation_date[%d]: %s\n", jj, ex_inundation_date[jj]);
-     
-		struct date inundation_date_f = createDateFromDateString(ex_inundation_date[jj]);
 
 	        // printf("%d DATE STRING CREATED \n");
         
