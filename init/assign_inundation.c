@@ -159,8 +159,7 @@ struct date createDateFromDateString(const char* dateString) {
     const char *patchID_filename = "inundation/inundation_patchID.txt";
 
 // Determine the number of records in the depth file
-    int max_values = 0; 
-    max_values = 500; 
+    int max_values = 500; 
 
     if (max_values < 0) {
         fprintf(stderr, "Failed to determine the number of records.\n");
