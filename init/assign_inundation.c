@@ -1,85 +1,89 @@
-// file_processing.c
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "file_processing.h"
 
-int readInundationDepths(const char *filename, float depths[], int max_values) {
-
-FILE *file_ex_inundation_depth = fopen("inundation/inundation_depth.txt", "r");
-    if (file_ex_inundation_depth == NULL) {
-    	fprintf(stderr, "Error: Could not open file 'inundation/inundation_depth.txt'\n");
-  	exit(EXIT_FAILURE);
+int readInundationDepths(const char *depth_filename, const char *dur_filename, const char *date_filename, const char *patchID_filename, double depths[], int durs[], char dates[][11], int patchIDs[], int max_values) {
+    FILE *file_depth = fopen(depth_filename, "r");
+    if (file_depth == NULL) {
+        fprintf(stderr, "Error: Could not open file '%s'\n", depth_filename);
+        return -1; 
     }
 
-    FILE *file_ex_inundation_dur = fopen("inundation/inundation_duration.txt", "r");
-    if (file_ex_inundation_dur == NULL) {
- 	fprintf(stderr, "Error: Could not open file 'inundation/inundation_duration.txt'\n");
-        exit(EXIT_FAILURE);
+    FILE *file_dur = fopen(dur_filename, "r");
+    if (file_dur == NULL) {
+        fprintf(stderr, "Error: Could not open file '%s'\n", dur_filename);
+        fclose(file_depth);
+        return -1; 
     }
 
-    FILE *file_ex_inundation_date = fopen("inundation/inundation_date.txt", "r");
-    if (file_ex_inundation_date == NULL) {
-      fprintf(stderr, "Error: Could not open file 'inundation/inundation_date.txt'\n");
-      exit(EXIT_FAILURE);
+    FILE *file_date = fopen(date_filename, "r");
+    if (file_date == NULL) {
+        fprintf(stderr, "Error: Could not open file '%s'\n", date_filename);
+        fclose(file_depth);
+        fclose(file_dur);
+        return -1; 
     }
 
-    FILE *file_ex_inundation_patchID = fopen("inundation/inundation_patchID.txt", "r");
-    if (file_ex_inundation_patchID == NULL) {
-      fprintf(stderr, "Error: Could not open file 'inundation/inundation_patchID.txt'\n");
-      exit(EXIT_FAILURE);
+    FILE *file_patchID = fopen(patchID_filename, "r");
+    if (file_patchID == NULL) {
+        fprintf(stderr, "Error: Could not open file '%s'\n", patchID_filename);
+        fclose(file_depth);
+        fclose(file_dur);
+        fclose(file_date);
+        return -1; 
     }
 
     int count_t = 0;
     double temp_in;
 
-    // printf("READ IN FILES\n");
-
-    while (fscanf(file_ex_inundation_depth, "%lf", &temp_in) == 1) {
+    // count the number of values in the depth file (representative of all other files as well) 
+    while (fscanf(file_depth, "%lf", &temp_in) == 1 && count_t < max_values) {
         count_t++;
     }
 
-    // printf("%d FILE LENGTH\n", count_t);
+    if (!feof(file_depth) && ferror(file_depth)) {
+        fprintf(stderr, "Error reading file '%s'\n", depth_filename);
+        fclose(file_depth);
+        fclose(file_dur);
+        fclose(file_date);
+        fclose(file_patchID);
+        return -1;
+    }
 
-    rewind(file_ex_inundation_depth);
+    // file_depth was read and used to assign sizes of arrays, need to rewind to read in values again later
+    rewind(file_depth);
 
-    int ex_inundation_dur[count_t];
-    double ex_inundation_depth[count_t];
-    char ex_inundation_date[count_t][11];
-    int ex_inundation_patchID[count_t];
-	    
     int ii = 0;
-    double last_value = 0.0;
+    for (ii = 0; ii < count_t; ii++) {
+        if (fscanf(file_dur, "%d", &durs[ii]) != 1) {
+            fprintf(stderr, "Error reading duration at index %d\n", ii);
+            break;
+        }
 
-    for (ii = 0; ii < count_t; ii++)
-    {
-        
-     // printf("Attempting to read at index %d\n", ii);
-    
-     if (fscanf(file_ex_inundation_dur, "%d", &ex_inundation_dur[ii]) != 1) {
-        fprintf(stderr, "Error reading ex_inundation_dur at index %d\n", ii);
-        break;
-    }
-    
-     if (fscanf(file_ex_inundation_date, "%10s", &ex_inundation_date[ii]) != 1) {
-        fprintf(stderr, "Error reading ex_inundation_date at index %d\n", ii);
-        break;
-    }
-        
+	// date is assumed to be in MM/DD/YYYY format 
+        if (fscanf(file_date, "%10s", dates[ii]) != 1) {
+            fprintf(stderr, "Error reading date at index %d\n", ii);
+            break;
+        }
 
-     if (fscanf(file_ex_inundation_depth, "%lf", &ex_inundation_depth[ii]) != 1) {
-        fprintf(stderr, "Error reading ex_inundation_depth at index %d\n", ii);
-        break;
-    }
-    
-     if (fscanf(file_ex_inundation_patchID, "%d", &ex_inundation_patchID[ii]) != 1) {
-        fprintf(stderr, "Error reading ex_inundation_patchID at index %d\n", ii);
-        break;
-     }
-        
-    // printf("%s ex_inundation_date \n", ex_inundation_date[ii]);
-        
-    }
-    
-    printf("%d FILES SCANNED\n");
+        if (fscanf(file_depth, "%lf", &depths[ii]) != 1) {
+            fprintf(stderr, "Error reading depth at index %d\n", ii);
+            break;
+        }
 
+        if (fscanf(file_patchID, "%d", &patchIDs[ii]) != 1) {
+            fprintf(stderr, "Error reading patch ID at index %d\n", ii);
+            break;
+        }
+    }
+
+    // Close all files
+    fclose(file_depth);
+    fclose(file_dur);
+    fclose(file_date);
+    fclose(file_patchID);
+
+    printf("%d values scanned\n", ii);
+    return ii; // return the number of values successfully read
 }
