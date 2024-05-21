@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "file_processing.h"
 #include "rhessys.h"
 
 int readInundationDepths(const char *depth_filename, const char *dur_filename, const char *date_filename, const char *patchID_filename, double depths[], int durs[], char dates[][11], int patchIDs[], int max_values) {
