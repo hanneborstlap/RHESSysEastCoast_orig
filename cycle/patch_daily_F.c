@@ -540,7 +540,7 @@ void		patch_daily_F(
 	        // printf("%d DATE STRING CREATED \n");
         
 		if (patch[0].ID == ex_inundation_patchID[jj]) {
-		    if (julday(inundation_date_f) == julday(current_date)) {
+		    if (julday(inundation_date_f[jj]) == julday(current_date)) {
 			   patch[0].ex_inundation_depth = ex_inundation_depth[jj]; 
 			   patch[0].ex_inundation_dur = ex_inundation_dur[jj];; 
 		 }
