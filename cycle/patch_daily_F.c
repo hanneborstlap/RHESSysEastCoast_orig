@@ -550,95 +550,57 @@ struct date createDateFromDateString(const char* dateString) {
     return result;
 }
 
-	// INUNDATION SECTION, TRYING TO READ IN FILES. 
+    const char *depth_filename = "inundation/inundation_depth.txt";
+    const char *dur_filename = "inundation/inundation_duration.txt";
+    const char *date_filename = "inundation/inundation_date.txt";
+    const char *patchID_filename = "inundation/inundation_patchID.txt";
 
-    printf("STARTING PATCH_DAILY_F \n");
-
-    FILE *file_ex_inundation_depth = fopen("inundation/inundation_depth.txt", "r");
-    if (file_ex_inundation_depth == NULL) {
-    	fprintf(stderr, "Error: Could not open file 'inundation/inundation_depth.txt'\n");
-  	exit(EXIT_FAILURE);
+    // Determine the number of records in the depth file
+    int max_values = countRecords(depth_filename);
+    if (max_values < 0) {
+        fprintf(stderr, "Failed to determine the number of records.\n");
+        return 1;
     }
 
-    FILE *file_ex_inundation_dur = fopen("inundation/inundation_duration.txt", "r");
-    if (file_ex_inundation_dur == NULL) {
- 	fprintf(stderr, "Error: Could not open file 'inundation/inundation_duration.txt'\n");
-        exit(EXIT_FAILURE);
+    // Allocate arrays based on the number of values
+    double *ex_inundation_depth = (double *)malloc(max_values * sizeof(double));
+    int *ex_inundation_dur = (int *)malloc(max_values * sizeof(int));
+    char (*ex_inundation_date)[11] = (char (*)[11])malloc(max_values * sizeof(*dates));
+    int *ex_inundation_patchID = (int *)malloc(max_values * sizeof(int));
+
+    if (depths == NULL || durs == NULL || dates == NULL || patchIDs == NULL) {
+        fprintf(stderr, "Error allocating memory.\n");
+        free(depths);
+        free(durs);
+        free(dates);
+        free(patchIDs);
+        return 1;
     }
 
-    FILE *file_ex_inundation_date = fopen("inundation/inundation_date.txt", "r");
-    if (file_ex_inundation_date == NULL) {
-      fprintf(stderr, "Error: Could not open file 'inundation/inundation_date.txt'\n");
-      exit(EXIT_FAILURE);
+    // Read the data from files into arrays
+    int num_records = readInundationDepths(depth_filename, dur_filename, date_filename, patchID_filename, ex_inundation_depth, ex_inundation_dur, ex_inundation_date, ex_inundation_patchID, max_values);
+
+    if (num_records < 0) {
+        fprintf(stderr, "Failed to read data from files.\n");
+        free(depths);
+        free(durs);
+        free(dates);
+        free(patchIDs);
+        return 1;
     }
 
-    FILE *file_ex_inundation_patchID = fopen("inundation/inundation_patchID.txt", "r");
-    if (file_ex_inundation_patchID == NULL) {
-      fprintf(stderr, "Error: Could not open file 'inundation/inundation_patchID.txt'\n");
-      exit(EXIT_FAILURE);
-    }
+    printf("Successfully read %d records.\n", num_records);
 
-    int count_t = 0;
-    double temp_in;
-
-    printf("READ IN FILES\n");
-
-    while (fscanf(file_ex_inundation_depth, "%lf", &temp_in) == 1) {
-        count_t++;
-    }
-
-    printf("%d FILE LENGTH\n", count_t);
-
-    rewind(file_ex_inundation_depth);
-
-    double ex_inundation_dur[count_t];
-    double ex_inundation_depth[count_t];
-    char* ex_inundation_date[count_t];
-    double ex_inundation_patchID[count_t];
-	    
-    int ii = 0;
-
-    for (ii = 0; ii < count_t; ii++)
-    {
-    
-     if (fscanf(file_ex_inundation_dur, "%d", &ex_inundation_dur[ii]) != 1) {
-        fprintf(stderr, "Error reading ex_inundation_dur at index %d\n", ii);
-        break;
-    }
-    
-     if (fscanf(file_ex_inundation_date, "%s", &ex_inundation_date[ii]) != 1) {
-        fprintf(stderr, "Error reading ex_inundation_date at index %d\n", ii);
-        break;
-    }
-
-     if (fscanf(file_ex_inundation_depth, "%lf", &ex_inundation_depth[ii]) != 1) {
-        fprintf(stderr, "Error reading ex_inundation_depth at index %d\n", ii);
-        break;
-    }
-    
-     if (fscanf(file_ex_inundation_patchID, "%d", &ex_inundation_patchID[ii]) != 1) {
-        fprintf(stderr, "Error reading ex_inundation_patchID at index %d\n", ii);
-        break;
-     }
-    }
-
-    printf("%d FILES SCANNED\n");
-
-    int count = sizeof(ex_inundation_patchID) / sizeof(ex_inundation_patchID[0]);
-
-     printf("%d FILE LENGTH 2\n", count);
-
-    // Loop to assign correct variables to each patch and date 
      int jj = 0; 
      for (int jj = 0; jj < count; jj++) {
 
-	        printf("%d STARTING LOOP \n");
+	        // printf("%d STARTING LOOP \n");
 
-	        printf("ex_inundation_date[%d]: %s\n", jj, ex_inundation_date[jj]);
+	        // printf("ex_inundation_date[%d]: %s\n", jj, ex_inundation_date[jj]);
      
 		struct date inundation_date_f = createDateFromDateString(ex_inundation_date[jj]);
 
-	        printf("%d DATE STRING CREATED \n");
+	        // printf("%d DATE STRING CREATED \n");
         
 		if (patch[0].ID == ex_inundation_patchID[jj]) {
 		    if (julday(inundation_date_f) == julday(current_date)) {
@@ -653,6 +615,12 @@ struct date createDateFromDateString(const char* dateString) {
 			// patch[0].ex_inundation_dur = 5.0;; 
          // }
     }
+
+    // Free the dynamically allocated memory
+    // free(depths);
+    // free(durs);
+    // free(dates);
+    // free(patchIDs);
 
 
 	/*--------------------------------------------------------------*/
