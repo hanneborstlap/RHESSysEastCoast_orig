@@ -20,6 +20,7 @@ $(OBJ)/assign_base_station_xy.o \
 $(OBJ)/assign_neighbours.o \
 $(OBJ)/assign_drainIN.o \
 $(OBJ)/assign_inundation.o \
+$(OBJ)/assign_inundation_size.o \
 $(OBJ)/basin_daily_F.o \
 $(OBJ)/basin_daily_I.o \
 $(OBJ)/basin_hourly.o \
