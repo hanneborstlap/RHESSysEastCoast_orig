@@ -3,6 +3,29 @@
 #include <string.h>
 #include "rhessys.h"
 
+int countValues(const char *filename) {
+    FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        fprintf(stderr, "Error: Could not open file '%s'\n", filename);
+        return -1; // Indicate failure
+    }
+
+    int count = 0;
+    double temp_in;
+    while (fscanf(file, "%lf", &temp_in) == 1) {
+        count++;
+    }
+
+    if (!feof(file) && ferror(file)) {
+        fprintf(stderr, "Error reading file '%s'\n", filename);
+        fclose(file);
+        return -1; // Indicate failure
+    }
+
+    fclose(file);
+    return count;
+}
+
 int readInundationDepths(const char *depth_filename, const char *dur_filename, const char *date_filename, const char *patchID_filename, double depths[], int durs[], char dates[][11], int patchIDs[], int max_values) {
     FILE *file_depth = fopen(depth_filename, "r");
     if (file_depth == NULL) {
