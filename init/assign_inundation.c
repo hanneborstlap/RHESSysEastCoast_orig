@@ -87,3 +87,86 @@ int readInundationDepths(const char *depth_filename, const char *dur_filename, c
     printf("%d values scanned\n", ii);
     return ii; // return the number of values successfully read
 }
+
+
+struct date createDateFromDateString(const char* dateString) {
+    // printf("STARTING CREATEDATE \n");
+    struct date result;
+    // printf("MAKE COPY \n");
+    // char* copy = strdup(dateString); // Make a copy of the input string
+ 
+      // Calculate the length of the input string
+    size_t length = strlen(dateString);
+
+    // Allocate memory for a copy of the input string and null terminator
+    char* copy = malloc(length + 1); // Add 1 for the null terminator
+    if (copy == NULL) {
+        perror("Failed to allocate memory");
+        printf("EMPTRY STRING \n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Copy the input string and null terminator
+    strncpy(copy, dateString, length);
+    copy[length] = '\0'; // Ensure null termination
+
+    // printf("Tokenizing date string: %s\n", copy);
+
+    char* token = strtok(copy, "/");
+    if (token != NULL) {
+        result.month = atoi(token);
+        token = strtok(NULL, "/");
+    }
+    if (token != NULL) {
+        result.day = atoi(token);
+        token = strtok(NULL, "/");
+    }
+    if (token != NULL) {
+        result.year = atoi(token);
+    }
+
+
+    free(copy);
+    return result;
+}
+
+    const char *depth_filename = "inundation/inundation_depth.txt";
+    const char *dur_filename = "inundation/inundation_duration.txt";
+    const char *date_filename = "inundation/inundation_date.txt";
+    const char *patchID_filename = "inundation/inundation_patchID.txt";
+
+    // Determine the number of records in the depth file
+    int max_values = countValues(depth_filename);
+    if (max_values < 0) {
+        fprintf(stderr, "Failed to determine the number of records.\n");
+        return 1;
+    }
+
+    // Allocate arrays based on the number of values
+    double *ex_inundation_depth = (double *)malloc(max_values * sizeof(double));
+    int *ex_inundation_dur = (int *)malloc(max_values * sizeof(int));
+    char (*ex_inundation_date)[11] = (char (*)[11])malloc(max_values * sizeof(*ex_inundation_date));
+    int *ex_inundation_patchID = (int *)malloc(max_values * sizeof(int));
+
+    if (ex_inundation_depth == NULL || ex_inundation_dur == NULL || ex_inundation_date == NULL || ex_inundation_patchID == NULL) {
+        fprintf(stderr, "Error allocating memory.\n");
+        free(ex_inundation_depth);
+        free(ex_inundation_dur);
+        free(ex_inundation_date);
+        free(ex_inundation_patchID);
+        return 1;
+    }
+
+    // Read the data from files into arrays
+    int num_records = readInundationDepths(depth_filename, dur_filename, date_filename, patchID_filename, ex_inundation_depth, ex_inundation_dur, ex_inundation_date, ex_inundation_patchID, max_values);
+
+    if (num_records < 0) {
+        fprintf(stderr, "Failed to read data from files.\n");
+        free(ex_inundation_depth);
+        free(ex_inundation_dur);
+        free(ex_inundation_date);
+        free(ex_inundation_patchID);
+        return 1;
+    }
+
+    printf("Successfully read %d records.\n", num_records);
