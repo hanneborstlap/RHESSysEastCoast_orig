@@ -80,6 +80,7 @@
 #include <string.h>
 #include <curl/curl.h>
 
+
 void		patch_daily_F(
 						  struct	world_object	*world,
 						  struct	basin_object	*basin,
@@ -529,9 +530,6 @@ void		patch_daily_F(
 	/*	INUNDATION	*/
 	/*--------------------------------------------------------------*/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 struct date createDateFromDateString(const char* dateString) {
     // printf("STARTING CREATEDATE \n");
