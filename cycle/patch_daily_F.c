@@ -534,17 +534,44 @@ void		patch_daily_F(
 #include <string.h>
 
 struct date createDateFromDateString(const char* dateString) {
+    // printf("STARTING CREATEDATE \n");
     struct date result;
-    char* token;
-    char* copy = strdup(dateString); // Make a copy of the input string
+    // printf("MAKE COPY \n");
+    // char* copy = strdup(dateString); // Make a copy of the input string
+ 
+      // Calculate the length of the input string
+    size_t length = strlen(dateString);
 
-    // Tokenize the string using "-" as the delimiter
-    token = strtok(copy, "/");
-    result.month = atoi(token);
-    token = strtok(NULL, "/");
-    result.day = atoi(token);
-    token = strtok(NULL, "/");
-    result.year = atoi(token);
+    // Allocate memory for a copy of the input string and null terminator
+    char* copy = malloc(length + 1); // Add 1 for the null terminator
+    if (copy == NULL) {
+        perror("Failed to allocate memory");
+        printf("EMPTRY STRING \n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Copy the input string and null terminator
+    strncpy(copy, dateString, length);
+    copy[length] = '\0'; // Ensure null termination
+
+    // printf("Tokenizing date string: %s\n", copy);
+
+    char* token = strtok(copy, "/");
+    if (token != NULL) {
+        printf("Month token: %s\n", token);
+        result.month = atoi(token);
+        token = strtok(NULL, "/");
+    }
+    if (token != NULL) {
+        printf("Day token: %s\n", token);
+        result.day = atoi(token);
+        token = strtok(NULL, "/");
+    }
+    if (token != NULL) {
+        printf("Year token: %s\n", token);
+        result.year = atoi(token);
+    }
+
 
     free(copy);
     return result;
