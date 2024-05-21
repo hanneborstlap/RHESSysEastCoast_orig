@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "rhessys.h"
+
 int countValues(const char *filename) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
