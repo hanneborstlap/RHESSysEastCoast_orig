@@ -592,15 +592,15 @@ struct date createDateFromDateString(const char* dateString) {
     // Allocate arrays based on the number of values
     double *ex_inundation_depth = (double *)malloc(max_values * sizeof(double));
     int *ex_inundation_dur = (int *)malloc(max_values * sizeof(int));
-    char (*ex_inundation_date)[11] = (char (*)[11])malloc(max_values * sizeof(*dates));
+    char (*ex_inundation_date)[11] = (char (*)[11])malloc(max_values * sizeof(*ex_inundation_date));
     int *ex_inundation_patchID = (int *)malloc(max_values * sizeof(int));
 
-    if (depths == NULL || durs == NULL || dates == NULL || patchIDs == NULL) {
+    if (ex_inundation_depth == NULL || ex_inundation_dur == NULL || ex_inundation_date == NULL || ex_inundation_patchID == NULL) {
         fprintf(stderr, "Error allocating memory.\n");
-        free(depths);
-        free(durs);
-        free(dates);
-        free(patchIDs);
+        free(ex_inundation_depth);
+        free(ex_inundation_dur);
+        free(ex_inundation_date);
+        free(ex_inundation_patchID);
         return 1;
     }
 
@@ -609,17 +609,17 @@ struct date createDateFromDateString(const char* dateString) {
 
     if (num_records < 0) {
         fprintf(stderr, "Failed to read data from files.\n");
-        free(depths);
-        free(durs);
-        free(dates);
-        free(patchIDs);
+        free(ex_inundation_depth);
+        free(ex_inundation_dur);
+        free(ex_inundation_date);
+        free(ex_inundation_patchID);
         return 1;
     }
 
     printf("Successfully read %d records.\n", num_records);
 
      int jj = 0; 
-     for (int jj = 0; jj < count; jj++) {
+     for (int jj = 0; jj < max_values; jj++) {
 
 	        // printf("%d STARTING LOOP \n");
 
