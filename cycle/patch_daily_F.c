@@ -558,17 +558,14 @@ struct date createDateFromDateString(const char* dateString) {
 
     char* token = strtok(copy, "/");
     if (token != NULL) {
-        printf("Month token: %s\n", token);
         result.month = atoi(token);
         token = strtok(NULL, "/");
     }
     if (token != NULL) {
-        printf("Day token: %s\n", token);
         result.day = atoi(token);
         token = strtok(NULL, "/");
     }
     if (token != NULL) {
-        printf("Year token: %s\n", token);
         result.year = atoi(token);
     }
 
