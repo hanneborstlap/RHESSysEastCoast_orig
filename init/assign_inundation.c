@@ -147,6 +147,7 @@ struct date createDateFromDateString(const char* dateString) {
     int *ex_inundation_dur = (int *)malloc(max_values * sizeof(int));
     char (*ex_inundation_date)[11] = (char (*)[11])malloc(max_values * sizeof(*ex_inundation_date));
     int *ex_inundation_patchID = (int *)malloc(max_values * sizeof(int));
+    struct date *inundation_date_f = malloc(11 * sizeof(struct date));
 
     if (ex_inundation_depth == NULL || ex_inundation_dur == NULL || ex_inundation_date == NULL || ex_inundation_patchID == NULL) {
         fprintf(stderr, "Error allocating memory.\n");
@@ -170,3 +171,8 @@ struct date createDateFromDateString(const char* dateString) {
     }
 
     printf("Successfully read %d records.\n", num_records);
+    
+    int jj = 0; 
+    for (int jj = 0; jj < max_values; jj++) {
+	struct date inundation_date_f[jj] = createDateFromDateString(ex_inundation_date[jj]);
+    }
