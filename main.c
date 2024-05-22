@@ -331,6 +331,8 @@ int	main( int main_argc, char **main_argv)
 	struct	tec_object	*construct_tec(
 		struct command_line_object *,
 		struct world_object * );
+
+	void processInundationData();
 	
 	void 	execute_tec(
 		struct	tec_object	*,
@@ -424,6 +426,13 @@ int	main( int main_argc, char **main_argv)
 	
 	if (command_line[0].verbose_flag > 0 )
 		fprintf(stderr,"FINISHED CON TEC\n");
+
+	/*--------------------------------------------------------------*/
+	/*	Read in inundation files. 				*/
+	/*--------------------------------------------------------------*/
+
+	processInundationData();
+	
 	/*--------------------------------------------------------------*/
 	/*	AN EVENT LOOP WOULD GO HERE.								*/
 	/*--------------------------------------------------------------*/
