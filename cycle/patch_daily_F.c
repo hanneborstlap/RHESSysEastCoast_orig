@@ -539,16 +539,16 @@ void		patch_daily_F(
 
 	        // printf("%d DATE STRING CREATED \n");
         
-		if (patch[0].ID == ex_inundation_patchID[jj]) {
-		    if (julday(inundation_date_f[jj]) == julday(current_date)) {
-			   patch[0].ex_inundation_depth = ex_inundation_depth[jj]; 
-			   patch[0].ex_inundation_dur = ex_inundation_dur[jj];; 
+		if (patch[0].ID == patchIDs[jj) {
+		    if (julday(dates[jj]) == julday(current_date)) {
+			   patch[0].ex_inundation_depth = depths[jj]; 
+			   patch[0].ex_inundation_dur = durs[jj];; 
 		 }
     }
 
 	printf("%d INUNDATION SECTION DONE, VARIABLES ASSIGNED\n");
         // else {
-          //  patch[0].ex_inundation_depth = 5.0; 
+          //  depths = 5.0; 
 			// patch[0].ex_inundation_dur = 5.0;; 
          // }
     }
