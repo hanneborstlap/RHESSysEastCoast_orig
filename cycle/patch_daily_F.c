@@ -547,7 +547,7 @@ void		patch_daily_F(
 		 }
     }
 
-	printf("%d INUNDATION SECTION DONE, VARIABLES ASSIGNED\n");
+	// printf("%d INUNDATION SECTION DONE, VARIABLES ASSIGNED\n");
         // else {
           //  depths = 5.0; 
 			// patch[0].ex_inundation_dur = 5.0;; 
