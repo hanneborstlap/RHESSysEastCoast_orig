@@ -3,6 +3,47 @@
 
 int readInundationDepths(const char *depth_filename, const char *dur_filename, const char *date_filename, const char *patchID_filename, double **depths, int **durs, char ***dates, int **patchIDs);
 
+struct date createDateFromDateString(const char* dateString) {
+    // printf("STARTING CREATEDATE \n");
+    struct date result;
+    // printf("MAKE COPY \n");
+    // char* copy = strdup(dateString); // Make a copy of the input string
+ 
+      // Calculate the length of the input string
+    size_t length = strlen(dateString);
+
+    // Allocate memory for a copy of the input string and null terminator
+    char* copy = malloc(length + 1); // Add 1 for the null terminator
+    if (copy == NULL) {
+        perror("Failed to allocate memory");
+        printf("EMPTRY STRING \n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Copy the input string and null terminator
+    strncpy(copy, dateString, length);
+    copy[length] = '\0'; // Ensure null termination
+
+    // printf("Tokenizing date string: %s\n", copy);
+
+    char* token = strtok(copy, "/");
+    if (token != NULL) {
+        result.month = atoi(token);
+        token = strtok(NULL, "/");
+    }
+    if (token != NULL) {
+        result.day = atoi(token);
+        token = strtok(NULL, "/");
+    }
+    if (token != NULL) {
+        result.year = atoi(token);
+    }
+
+
+    free(copy);
+    return result;
+}
+
 void processInundationData() {
     const char *depth_filename = "inundation/inundation_depth.txt";
     const char *dur_filename = "inundation/inundation_dur.txt";
