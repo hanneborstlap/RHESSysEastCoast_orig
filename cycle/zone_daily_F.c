@@ -136,7 +136,8 @@ void		zone_daily_F(
 						 struct 	zone_object 	*zone,
 						 struct 	command_line_object *command_line,
 						 struct	tec_entry		*event,
-						 struct 	date 			current_date)
+						 struct 	date 			current_date,
+						double *depths, int *durs, char **dates, int *patchIDs, int count)
 						 
 {
 	/*--------------------------------------------------------------*/
