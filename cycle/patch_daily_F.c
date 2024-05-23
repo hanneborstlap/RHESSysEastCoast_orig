@@ -535,16 +535,24 @@ void		patch_daily_F(
 
 struct date createDateFromDateString(const char* dateString) {
     struct date result;
-    char* token;
-    char* copy = strdup(dateString); // Make a copy of the input string
+    char* copy = strdup(dateString); // Duplicate the input string
+    if (copy == NULL) {
+        perror("Failed to allocate memory");
+        exit(EXIT_FAILURE);
+    }
 
-    // Tokenize the string using "-" as the delimiter
-    token = strtok(copy, "/");
-    result.month = atoi(token);
-    token = strtok(NULL, "/");
-    result.day = atoi(token);
-    token = strtok(NULL, "/");
-    result.year = atoi(token);
+    char* token = strtok(copy, "/");
+    if (token != NULL) {
+        result.month = atoi(token);
+        token = strtok(NULL, "/");
+    }
+    if (token != NULL) {
+        result.day = atoi(token);
+        token = strtok(NULL, "/");
+    }
+    if (token != NULL) {
+        result.year = atoi(token);
+    }
 
     free(copy);
     return result;
@@ -563,7 +571,9 @@ struct date createDateFromDateString(const char* dateString) {
 	  	printf("%d EQUAL PATCH FOUND \n");
 		printf("Date: %s\n", dates[jj]); 
   		struct date inundation_date_f = createDateFromDateString(dates[jj]);
+		printf("Date: %s\n", dates[jj]); 
 		    if (julday(inundation_date_f) == julday(current_date)) {
+			   printf("Date: %s\n", dates[jj]); 
 			   patch[0].ex_inundation_depth = depths[jj]; 
 			   patch[0].ex_inundation_dur = durs[jj];; 
 		 }
