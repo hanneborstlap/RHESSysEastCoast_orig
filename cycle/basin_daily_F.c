@@ -50,7 +50,8 @@ void	basin_daily_F(
 					  struct	basin_object 	*basin,
 					  struct	command_line_object *command_line,
 					  struct	tec_entry		*event,
-					  struct	date			current_date)
+					  struct	date			current_date,
+					double *depths, int *durs, char **dates, int *patchIDs, int count)
 {
 	/*--------------------------------------------------------------*/
 	/*  Local Function Declarations.                                */
@@ -62,7 +63,7 @@ void	basin_daily_F(
 		struct	hillslope_object *,
 		struct	command_line_object *, 
 		struct	tec_entry *,
-		struct	date );
+		struct	date, double *depths, int *durs, char **dates, int *patchIDs, int count);
 	/*--------------------------------------------------------------*/
 	/* this part has been moved to basin_hourly			*/
 	/*--------------------------------------------------------------*/
@@ -112,7 +113,9 @@ void	basin_daily_F(
 			basin[0].hillslopes[h],
 			command_line, 
 			event,
-			current_date );
+			current_date,
+			depths, durs, dates, patchIDs, count
+			);
 	}
 
         hillslope = basin[0].hillslopes[0];
