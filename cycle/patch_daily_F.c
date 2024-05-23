@@ -384,7 +384,7 @@ void		patch_daily_F(
 					  struct	zone_object	*zone,
 					  struct	patch_object	*patch);
 
-struct date createDateFromDateString();
+struct date createDateFromDateString(const char* dateString);
 
 struct date {
     int day;
@@ -547,7 +547,7 @@ struct date {
 	/*--------------------------------------------------------------*/
 
      int jj = 0; 
-     for (int jj = 0; jj < max_values; jj++) {
+     for (int jj = 0; jj < count; jj++) {
         
 		if (patch[0].ID == patchIDs[jj]) {
 	  	printf("%d EQUAL PATCH FOUND \n");
