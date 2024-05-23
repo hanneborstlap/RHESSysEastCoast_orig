@@ -534,24 +534,40 @@ void		patch_daily_F(
 	/*--------------------------------------------------------------*/
 
 struct date createDateFromDateString(const char* dateString) {
-    struct date result;
-    char* copy = strdup(dateString); // Duplicate the input string
+    struct date result = {0, 0, 0}; // Initialize to zero to avoid garbage values
+
+    // Manual duplication of the input string
+    char* copy = (char*)malloc(strlen(dateString) + 1);
     if (copy == NULL) {
         perror("Failed to allocate memory");
         exit(EXIT_FAILURE);
     }
+    strcpy(copy, dateString);
+
+    printf("Debug: Copied string: %s\n", copy);
 
     char* token = strtok(copy, "/");
     if (token != NULL) {
         result.month = atoi(token);
+        printf("Debug: Month parsed: %d\n", result.month);
         token = strtok(NULL, "/");
+    } else {
+        printf("Debug: First token is NULL\n");
     }
+
     if (token != NULL) {
         result.day = atoi(token);
+        printf("Debug: Day parsed: %d\n", result.day);
         token = strtok(NULL, "/");
+    } else {
+        printf("Debug: Second token is NULL\n");
     }
+
     if (token != NULL) {
         result.year = atoi(token);
+        printf("Debug: Year parsed: %d\n", result.year);
+    } else {
+        printf("Debug: Third token is NULL\n");
     }
 
     free(copy);
