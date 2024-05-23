@@ -383,6 +383,16 @@ void		patch_daily_F(
 					  struct	basin_object	*basin,
 					  struct	zone_object	*zone,
 					  struct	patch_object	*patch);
+
+struct date createDateFromDateString();
+
+struct date {
+    int day;
+    int month;
+    int year;
+};
+
+
 	/*--------------------------------------------------------------*/
 	/*  Local variable definition.                                  */
 	/*--------------------------------------------------------------*/
