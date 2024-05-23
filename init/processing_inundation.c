@@ -32,42 +32,6 @@ struct date createDateFromDateString(const char* dateString) {
     return result;
 }
 
-
-int readInundationDepths(const char *depth_filename, const char *dur_filename, const char *date_filename, const char *patchID_filename, double **depths, int **durs, char ***dates, int **patchIDs);
-
-void processInundationData() {
-    const char *depth_filename = "inundation/inundation_depth.txt";
-    const char *dur_filename = "inundation/inundation_dur.txt";
-    const char *date_filename = "inundation/inundation_date.txt";
-    const char *patchID_filename = "inundation/inundation_patchID.txt";
-
-    double *depths;
-    int *durs;
-    char **dates;
-    int *patchIDs;
-
-    int num_values = readInundationDepths(depth_filename, dur_filename, date_filename, patchID_filename, &depths, &durs, &dates, &patchIDs);
-
-    if (num_values == -1) {
-        fprintf(stderr, "Error reading data from files.\n");
-        return;
-    }
-
-    // Print the read data
-    for (int i = 0; i < num_values; i++) {
-        printf("Depth: %lf, Duration: %d, Date: %s, PatchID: %d\n", depths[i], durs[i], dates[i], patchIDs[i]);
-    }
-
-    // Free allocated memory
-    for (int i = 0; i < num_values; i++) {
-        free(dates[i]);
-    }
-    free(dates);
-    free(depths);
-    free(durs);
-    free(patchIDs);
-}
-
 int readInundationDepths(const char *depth_filename, const char *dur_filename, const char *date_filename, const char *patchID_filename, double **depths, int **durs, char ***dates, int **patchIDs) {
     FILE *file_depth = fopen(depth_filename, "r");
     if (file_depth == NULL) {
@@ -118,8 +82,13 @@ int readInundationDepths(const char *depth_filename, const char *dur_filename, c
 
     *depths = (double *)malloc(count * sizeof(double));
     *durs = (int *)malloc(count * sizeof(int));
-    *dates = (char **)malloc(count * sizeof(char *));
+    *dates = (char**)malloc(count * sizeof(char*));
     *patchIDs = (int *)malloc(count * sizeof(int));
+
+    for (int i = 0; i < count; ++i) {
+        (*dates)[i] = (char*)malloc(11 * sizeof(char)); // Assuming date format "YYYY-MM-DD"
+        //snprintf((*dates)[i], 11, "2023/05/0%d", i + 1); // Example dates
+    }
 
     if (*depths == NULL || *durs == NULL || *dates == NULL || *patchIDs == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
@@ -130,24 +99,7 @@ int readInundationDepths(const char *depth_filename, const char *dur_filename, c
         return -1;
     }
 
-    for (int i = 0; i < count; i++) {
-        (*dates)[i] = (char *)malloc(11 * sizeof(char));
-        if ((*dates)[i] == NULL) {
-            fprintf(stderr, "Memory allocation failed\n");
-            fclose(file_depth);
-            fclose(file_dur);
-            fclose(file_date);
-            fclose(file_patchID);
-            for (int j = 0; j < i; j++) {
-                free((*dates)[j]);
-            }
-            free(*depths);
-            free(*durs);
-            free(*dates);
-            free(*patchIDs);
-            return -1;
-        }
-    }
+
 
     int ii;
     for (ii = 0; ii < count; ii++) {
@@ -156,9 +108,9 @@ int readInundationDepths(const char *depth_filename, const char *dur_filename, c
             break;
         }
 
-        if (fscanf(file_date, "%10s", (*dates)[ii]) != 1) {
-            fprintf(stderr, "Error reading date at index %d\n", ii);
-            break;
+        if (fscanf(file_date, "%11s", (*dates)[ii]) != 1) {
+           fprintf(stderr, "Error reading date at index %d\n", ii);
+           break;
         }
 
         if (fscanf(file_depth, "%lf", &(*depths)[ii]) != 1) {
@@ -170,13 +122,20 @@ int readInundationDepths(const char *depth_filename, const char *dur_filename, c
             fprintf(stderr, "Error reading patch ID at index %d\n", ii);
             break;
         }
+        
     }
-
+    
+    // printf("Date: %s\n", (*dates[4]));
+    
     fclose(file_depth);
     fclose(file_dur);
     fclose(file_date);
     fclose(file_patchID);
 
     printf("%d values scanned\n", ii);
+    printf("%d count\n", count);
     return ii; // return the number of values successfully read
 }
+
+
+
