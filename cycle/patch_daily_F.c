@@ -89,7 +89,13 @@ void		patch_daily_F(
 						  struct 	patch_object 	*patch,
 						  struct 	command_line_object *command_line,
 						  struct	tec_entry		*event,
-						  struct	date 			current_date)
+						  struct	date 			current_date,
+							double *depths, 
+							int *durs, 
+							char **dates, 
+							int *patchIDs, 
+							int count
+)
 {
 	/*------------------------------------------------------*/
 	/*	Local Function Declarations.						*/
