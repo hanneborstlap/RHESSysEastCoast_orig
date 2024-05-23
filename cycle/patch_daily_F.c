@@ -80,6 +80,14 @@
 #include <string.h>
 #include <curl/curl.h>
 
+struct date createDateFromDateString();
+
+struct date {
+    int day;
+    int month;
+    int year;
+};
+
 
 void		patch_daily_F(
 						  struct	world_object	*world,
@@ -383,8 +391,6 @@ void		patch_daily_F(
 					  struct	basin_object	*basin,
 					  struct	zone_object	*zone,
 					  struct	patch_object	*patch);
-
-struct date createDateFromDateString(const char* dateString);
 
 struct date {
     int day;
