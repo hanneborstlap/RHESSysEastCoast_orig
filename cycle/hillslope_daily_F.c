@@ -67,7 +67,7 @@ void		hillslope_daily_F(
 		struct zone_object *,
 		struct command_line_object *,
 		struct tec_entry *,
-		struct date);
+		struct date, double *depths, int *durs, char **dates, int *patchIDs, int count);
 	
 	double	top_model(
 		int,
@@ -98,7 +98,8 @@ void		hillslope_daily_F(
 			hillslope[0].zones[zone],
 			command_line,
 			event,
-			current_date );
+			current_date,
+			depths, durs, dates, patchIDs, count);
 	}
 	/*----------------------------------------------------------------------*/
 	/*  baseflow calculations                                               */
