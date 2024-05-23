@@ -725,7 +725,8 @@ void		zone_daily_F(
 			zone[0].patches[patch],
 			command_line,
 			event,
-			current_date );
+			current_date, 
+			depths, durs, dates, patchIDs, count);
 
 	  if(command_line[0].vegspinup_flag > 0){
       if (zone[0].patches[patch]->target_status == 0){
