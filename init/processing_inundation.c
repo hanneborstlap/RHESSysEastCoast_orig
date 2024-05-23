@@ -132,8 +132,8 @@ int readInundationDepths(const char *depth_filename, const char *dur_filename, c
     fclose(file_date);
     fclose(file_patchID);
 
-    printf("%d values scanned\n", ii);
-    printf("%d count\n", count);
+    // printf("%d values scanned\n", ii);
+    // printf("%d count\n", count);
     return ii; // return the number of values successfully read
 }
 
