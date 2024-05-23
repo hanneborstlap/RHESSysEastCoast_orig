@@ -45,13 +45,16 @@ void world_daily_F(
 	/*--------------------------------------------------------------*/
 	/*  Local Function Declarations.                                */
 	/*--------------------------------------------------------------*/
+
+	// READ IN INUNDATION FILES HERE 
+	
 	void	basin_daily_F(
 		long	,
 		struct world_object *,
 		struct basin_object *,
 		struct command_line_object *,
 		struct tec_entry *,
-		struct date);
+		struct date, double *depths, int *durs, char **dates, int *patchIDs, int count);
 	/*--------------------------------------------------------------*/
 	/*  Local variable definition.                                  */
 	/*--------------------------------------------------------------*/
