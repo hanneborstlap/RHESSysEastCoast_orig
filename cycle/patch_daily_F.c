@@ -544,13 +544,13 @@ struct date {
 
 	/*--------------------------------------------------------------*/
 	/*	INUNDATION	*/
-	/*--------------------------------------------------------------*
+	/*--------------------------------------------------------------*/
 
      int jj = 0; 
      for (int jj = 0; jj < max_values; jj++) {
         
 		if (patch[0].ID == patchIDs[jj]) {
-	  	// printf("%d EQUAL PATCH FOUND \n");
+	  	printf("%d EQUAL PATCH FOUND \n");
   		struct date inundation_date_f = createDateFromDateString(dates[jj]);
 		    if (julday(inundation_date_f) == julday(current_date)) {
 			   patch[0].ex_inundation_depth = depths[jj]; 
