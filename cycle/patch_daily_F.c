@@ -383,12 +383,6 @@ void		patch_daily_F(
 					  struct	zone_object	*zone,
 					  struct	patch_object	*patch);
 
-struct date {
-    int day;
-    int month;
-    int year;
-};
-
 
 	/*--------------------------------------------------------------*/
 	/*  Local variable definition.                                  */
@@ -538,6 +532,25 @@ struct date {
 	/*--------------------------------------------------------------*/
 	/*	INUNDATION	*/
 	/*--------------------------------------------------------------*/
+
+struct date createDateFromDateString(const char* dateString) {
+    struct date result;
+    char* token;
+    char* copy = strdup(dateString); // Make a copy of the input string
+
+    // Tokenize the string using "-" as the delimiter
+    token = strtok(copy, "/");
+    result.month = atoi(token);
+    token = strtok(NULL, "/");
+    result.day = atoi(token);
+    token = strtok(NULL, "/");
+    result.year = atoi(token);
+
+    free(copy);
+    return result;
+}
+
+
 
 	/*--------------------------------------------------------------*/
 	/*	INUNDATION	*/
