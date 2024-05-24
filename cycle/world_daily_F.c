@@ -47,6 +47,19 @@ void world_daily_F(
 	/*--------------------------------------------------------------*/
 
 	// READ IN INUNDATION FILES HERE 
+
+	const char *depth_filename = "inundation/inundation_depth.txt";
+    	const char *dur_filename = "inundation/inundation_dur.txt";
+    	const char *date_filename = "inundation/inundation_date.txt";
+    	const char *patchID_filename = "inundation/inundation_patchID.txt";
+    
+    	float* depths = NULL;
+    	float* durs = NULL;
+    	char** dates = NULL;
+    	int* patchIDs = NULL;
+    
+    	// Call processInundationData and pass pointers to arrays
+    	int count = readInundationDepths(depth_filename, dur_filename, date_filename, patchID_filename, &depths, &durs, &dates, &patchIDs);
 	
 	void	basin_daily_F(
 		long	,
@@ -69,7 +82,8 @@ void world_daily_F(
 			world[0].basins[basin],
 			command_line,
 			event,
-			current_date);
+			current_date, 
+			depths, durs, dates, patchIDs, count);
 	}
 	return;
 } /*end world_daily_F.c*/
