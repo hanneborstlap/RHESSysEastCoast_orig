@@ -719,19 +719,6 @@ void		zone_daily_F(
 	/*	Cycle through the patches for day end computations		    	*/
 	/*--------------------------------------------------------------*/
 
-	const char *depth_filename = "inundation/inundation_depth.txt";
-    	const char *dur_filename = "inundation/inundation_dur.txt";
-    	const char *date_filename = "inundation/inundation_date.txt";
-    	const char *patchID_filename = "inundation/inundation_patchID.txt";
-    
-    	float* depths = NULL;
-    	float* durs = NULL;
-    	char** dates = NULL;
-    	int* patchIDs = NULL;
-    
-    	// Call processInundationData and pass pointers to arrays
-    	int count = readInundationDepths(depth_filename, dur_filename, date_filename, patchID_filename, &depths, &durs, &dates, &patchIDs);
-	
 	for ( patch=0 ; patch<zone[0].num_patches; patch++ ){
 		patch_daily_F(
 			world,
