@@ -542,17 +542,63 @@ struct date {
 	/*	INUNDATION	*/
 	/*--------------------------------------------------------------*/
 
+	struct date createDateFromDateString(const char* dateString) {
+    struct date result = {0, 0, 0}; // Initialize to zero to avoid garbage values
+
+    // Manual duplication of the input string
+    char* copy = (char*)malloc(strlen(dateString) + 1);
+    if (copy == NULL) {
+        perror("Failed to allocate memory");
+        exit(EXIT_FAILURE);
+    }
+    strcpy(copy, dateString);
+
+    printf("Debug: Copied string: %s\n", copy);
+
+    char* token = strtok(copy, "/");
+    if (token != NULL) {
+        result.month = atoi(token);
+        printf("Debug: Month parsed: %d\n", result.month);
+        token = strtok(NULL, "/");
+    } else {
+        printf("Debug: First token is NULL\n");
+    }
+
+    if (token != NULL) {
+        result.day = atoi(token);
+        printf("Debug: Day parsed: %d\n", result.day);
+        token = strtok(NULL, "/");
+    } else {
+        printf("Debug: Second token is NULL\n");
+    }
+
+    if (token != NULL) {
+        result.year = atoi(token);
+        printf("Debug: Year parsed: %d\n", result.year);
+    } else {
+        printf("Debug: Third token is NULL\n");
+    }
+
+    free(copy);
+    return result;
+}
+
+
+
 	/*--------------------------------------------------------------*/
 	/*	INUNDATION	*/
-	/*--------------------------------------------------------------*
+	/*--------------------------------------------------------------*/
 
      int jj = 0; 
-     for (int jj = 0; jj < max_values; jj++) {
+     for (int jj = 0; jj < count; jj++) {
         
 		if (patch[0].ID == patchIDs[jj]) {
-	  	// printf("%d EQUAL PATCH FOUND \n");
+	  	printf("%d EQUAL PATCH FOUND \n");
+		printf("Date: %s\n", dates[jj]); 
   		struct date inundation_date_f = createDateFromDateString(dates[jj]);
+		printf("Date: %s\n", dates[jj]); 
 		    if (julday(inundation_date_f) == julday(current_date)) {
+			   printf("Date: %s\n", dates[jj]); 
 			   patch[0].ex_inundation_depth = depths[jj]; 
 			   patch[0].ex_inundation_dur = durs[jj];; 
 		 }
@@ -570,7 +616,6 @@ struct date {
     // free(durs);
     // free(dates);
     // free(patchIDs);
-
 
 	/*--------------------------------------------------------------*/
 	/*	Set the patch rain and snow throughfall equivalent to the	*/
