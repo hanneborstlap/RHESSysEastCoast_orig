@@ -1901,76 +1901,8 @@ void		patch_daily_F(
 					exit(EXIT_FAILURE);
 				}
 			}
-			net_inflow = patch[0].detention_store;
-			/*--------------------------------------------------------------*/
-			/*      - if rain duration is zero, then input is from snow     */
-			/*      melt  assume full daytime duration                      */
-			/*--------------------------------------------------------------*/
-            // this is the first patch[0].S call in patch_daily_F
-            // in patch_daily_I.c, patch[0].S = (patch[0].rz_storage+patch[0].unsat_storage)/patch[0].sat_deficit;
-            // 1/86400 = 1.15741e-05
-            duration = 0.00001157407 * (zone[0].rain_duration <= ZERO? zone[0].metv.dayl : zone[0].rain_duration ); //makes rain all daytime
-            infiltration = compute_infiltration(
-                command_line[0].verbose_flag,
-                patch[0].sat_deficit_z,
-                0.0, //patch[0].aboveWT_SatPct,
-                patch[0].Ksat_vertical,
-                patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index+1] + (1.0-patch[0].sat_def_pct_indexM) * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index],
-                patch[0].rz_storage+patch[0].unsat_storage,
-                patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0][0].sat_def_0zm[patch[0].sat_def_pct_index+1] + (1.0-patch[0].sat_def_pct_indexM) * patch[0].soil_defaults[0][0].sat_def_0zm[patch[0].sat_def_pct_index],
-                patch[0].sat_deficit,
-                net_inflow,
-                duration,
-                patch[0].soil_defaults[0][0].psi_air_entry);
-            
-        } else infiltration = 0.0;
 
-		if (infiltration < 0.0) {
-			printf("\nInfiltration %lf < 0 for %d on %ld",
-				infiltration,
-				patch[0].ID, current_date.day);
-		}//if
-		/*--------------------------------------------------------------*/
-		/* determine fate of hold infiltration excess in detention store */
-		/* infiltration excess will removed during routing portion	*/
-		/*--------------------------------------------------------------*/
-		
-		infiltration = min(infiltration,patch[0].detention_store);
-
-		/*--------------------------------------------------------------*/
-		/* now take infiltration out of detention store 	*/
-		/*--------------------------------------------------------------*/
-		
-		patch[0].detention_store -= infiltration;
-			/*--------------------------------------------------------------*/
-			/*	Determine if the infifltration will fill up the unsat	*/
-			/*	zone or not.						*/
-			/*	We use the strict assumption that sat deficit is the	*/
-			/*	amount of water needed to saturate the soil.		*/
-			/*--------------------------------------------------------------*/
-		
-		if (infiltration > ZERO) {
-			/*--------------------------------------------------------------*/
-			/*	Update patch level soil moisture with final infiltration.	*/
-			/*--------------------------------------------------------------*/
-			update_soil_moisture(
-				command_line[0].verbose_flag,
-				infiltration,
-				net_inflow,
-				patch,
-				command_line,
-				current_date );
-		}
-		
-		patch[0].recharge = infiltration;
-	} // end if hourly rain flag
-    if(patch[0].sat_deficit!=patch[0].sat_deficit || patch[0].sat_deficit_z!=patch[0].sat_deficit_z || patch[0].rootzone.field_capacity!=patch[0].rootzone.field_capacity || patch[0].field_capacity!=patch[0].field_capacity){
-        printf("patch_daily_F(3): (%d,%d,%d) %lf %lf %lf %lf\n",
-               patch[0].ID, patch[0].soil_defaults[0][0].ID, patch[0].sat_def_pct_index,
-               patch[0].sat_deficit, patch[0].sat_deficit_z,
-               patch[0].rootzone.field_capacity, patch[0].field_capacity);
-    }//debug
-
+	    
 	if (patch[0].ex_inundation_depth > 0.0) {
             
 			/*------------------------------------------------------------------------*/
@@ -2046,6 +1978,77 @@ void		patch_daily_F(
                patch[0].sat_deficit, patch[0].sat_deficit_z,
                patch[0].rootzone.field_capacity, patch[0].field_capacity);
     } 
+
+	    
+			net_inflow = patch[0].detention_store;
+			/*--------------------------------------------------------------*/
+			/*      - if rain duration is zero, then input is from snow     */
+			/*      melt  assume full daytime duration                      */
+			/*--------------------------------------------------------------*/
+            // this is the first patch[0].S call in patch_daily_F
+            // in patch_daily_I.c, patch[0].S = (patch[0].rz_storage+patch[0].unsat_storage)/patch[0].sat_deficit;
+            // 1/86400 = 1.15741e-05
+            duration = 0.00001157407 * (zone[0].rain_duration <= ZERO? zone[0].metv.dayl : zone[0].rain_duration ); //makes rain all daytime
+            infiltration = compute_infiltration(
+                command_line[0].verbose_flag,
+                patch[0].sat_deficit_z,
+                0.0, //patch[0].aboveWT_SatPct,
+                patch[0].Ksat_vertical,
+                patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index+1] + (1.0-patch[0].sat_def_pct_indexM) * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index],
+                patch[0].rz_storage+patch[0].unsat_storage,
+                patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0][0].sat_def_0zm[patch[0].sat_def_pct_index+1] + (1.0-patch[0].sat_def_pct_indexM) * patch[0].soil_defaults[0][0].sat_def_0zm[patch[0].sat_def_pct_index],
+                patch[0].sat_deficit,
+                net_inflow,
+                duration,
+                patch[0].soil_defaults[0][0].psi_air_entry);
+            
+        } else infiltration = 0.0;
+
+		if (infiltration < 0.0) {
+			printf("\nInfiltration %lf < 0 for %d on %ld",
+				infiltration,
+				patch[0].ID, current_date.day);
+		}//if
+		/*--------------------------------------------------------------*/
+		/* determine fate of hold infiltration excess in detention store */
+		/* infiltration excess will removed during routing portion	*/
+		/*--------------------------------------------------------------*/
+		
+		infiltration = min(infiltration,patch[0].detention_store);
+
+		/*--------------------------------------------------------------*/
+		/* now take infiltration out of detention store 	*/
+		/*--------------------------------------------------------------*/
+		
+		patch[0].detention_store -= infiltration;
+			/*--------------------------------------------------------------*/
+			/*	Determine if the infifltration will fill up the unsat	*/
+			/*	zone or not.						*/
+			/*	We use the strict assumption that sat deficit is the	*/
+			/*	amount of water needed to saturate the soil.		*/
+			/*--------------------------------------------------------------*/
+		
+		if (infiltration > ZERO) {
+			/*--------------------------------------------------------------*/
+			/*	Update patch level soil moisture with final infiltration.	*/
+			/*--------------------------------------------------------------*/
+			update_soil_moisture(
+				command_line[0].verbose_flag,
+				infiltration,
+				net_inflow,
+				patch,
+				command_line,
+				current_date );
+		}
+		
+		patch[0].recharge = infiltration;
+	} // end if hourly rain flag
+    if(patch[0].sat_deficit!=patch[0].sat_deficit || patch[0].sat_deficit_z!=patch[0].sat_deficit_z || patch[0].rootzone.field_capacity!=patch[0].rootzone.field_capacity || patch[0].field_capacity!=patch[0].field_capacity){
+        printf("patch_daily_F(3): (%d,%d,%d) %lf %lf %lf %lf\n",
+               patch[0].ID, patch[0].soil_defaults[0][0].ID, patch[0].sat_def_pct_index,
+               patch[0].sat_deficit, patch[0].sat_deficit_z,
+               patch[0].rootzone.field_capacity, patch[0].field_capacity);
+    }//debug
 	//debug
     
 	/*--------------------------------------------------------------*/
