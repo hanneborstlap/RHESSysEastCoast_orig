@@ -138,7 +138,7 @@ void	output_patch(
     
 
     
-	check = fprintf(outfile,"%d %d %d %d %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf\n",
+	check = fprintf(outfile,"%d %d %d %d %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf\n",
                     
 					current_date.year, current_date.month, current_date.day, //1,2,3,
 					patch[0].ID, //4
@@ -171,7 +171,8 @@ void	output_patch(
                     top30cm_storage * 1000.0,
                     top30cm_potential_sat * 1000.0,
                     top60cm_storage * 1000.0,
-                    top60cm_potential_sat * 1000.0
+                    top60cm_potential_sat * 1000.0,
+		patch[0].streamflow
                     );
 
 	if (check <= 0) {
