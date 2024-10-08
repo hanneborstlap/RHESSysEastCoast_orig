@@ -506,6 +506,8 @@ void		patch_daily_F(
 	
 	patch[0].exfiltration_unsat_zone = 0.0;
 	patch[0].exfiltration_sat_zone = 0.0;
+
+	patch[0].ditch_extraction = 0.0; 
 	
 	patch[0].T_canopy = zone[0].metv.tavg;
 	patch[0].T_canopy_final = 0.0;
@@ -615,7 +617,15 @@ void		patch_daily_F(
         // note:: solutes at sources are substrated by the processes above
         
     }// irrigation
-    
+
+	// DITCHES 
+    if(patch[0].canopy_strata==99){
+	patch[0].available_soil_water = patch[0].soil_defaults[0][0].soil_water_cap - patch[0].sat_deficit; 
+	patch[0].sat_deficit += patch[0].available_soil_water * strata[0].cover_fraction*0.1; // extraction completed
+	patch[0].ditch_extraction = patch[0].available_soil_water * strata[0].cover_fraction*0.1; 
+    }
+
+
     patch[0].sewerdrained = 0.0;
     patch[0].sewerdrained_NO3 = 0.0;
     patch[0].sewerdrained_NH4 = 0.0;
