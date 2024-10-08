@@ -486,7 +486,7 @@ void add_headers(struct world_output_file_object *world_output_files,
                         "top30cm_potential_sat",
                         "top60cm_storage",
                         "top60cm_potential_sat", 
-			"ditch_extraction'
+			"ditch_extraction"
 						); 
                         // patch daily
 	/*--------------------------------------------------------------*/
