@@ -506,6 +506,8 @@ void		patch_daily_F(
 	
 	patch[0].exfiltration_unsat_zone = 0.0;
 	patch[0].exfiltration_sat_zone = 0.0;
+
+	patch[0].ditch_extraction = 0.0; 
 	
 	patch[0].T_canopy = zone[0].metv.tavg;
 	patch[0].T_canopy_final = 0.0;
