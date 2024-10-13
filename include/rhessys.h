@@ -1712,6 +1712,8 @@ struct patch_object
             int rtz2_index;
             int rootdepth_index;
             double rootdepth_indexM;
+
+	    double ditch_extraction; 
             
             double* rootzone_start_reffc;
             double* rootzone_end_reffc;
