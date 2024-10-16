@@ -636,145 +636,13 @@ void		patch_daily_F(
     patch[0].sat_NH4<0 || patch[0].sat_DOC!=patch[0].sat_DOC ||
     patch[0].sat_DOC<0) printf("patch daily F0N %d-%d-%d [%d,%d,%d,%d]{%e,%e,%e,%e}[%e,%e,%e,%e]\n",
        current_date.year, current_date.month, current_date.day,
-       patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionSEWER,
+       patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionDITCH,
        patch[0].soil_ns.nitrate,
        patch[0].soil_ns.sminn,
        patch[0].soil_cs.DOC,
        patch[0].soil_ns.DON,
        patch[0].sat_NO3, patch[0].sat_NH4, patch[0].sat_DOC, patch[0].sat_DON);
-    
-    if(command_line[0].sewer_flag==1 && patch[0].drainage_type>0 && patch[0].drainage_type % actionSEWER==0){
-        //---------------------------- lawn / impervious drainage (sewerage)
-        
-        if(patch[0].sat_deficit_z < patch[0].landuse_defaults[0][0].sewer_infiltrationSatDefZThreshold){
-            // infiltration into the sewer
-            patch[0].sewerdrained += min(min((patch[0].landuse_defaults[0][0].sewer_infiltrationSatDefZThreshold-patch[0].sat_deficit_z)*patch[0].landuse_defaults[0][0].sewer_infiltrationSatDefZHeadSpace,1.0)*patch[0].landuse_defaults[0][0].sewer_infiltrationRate, patch[0].landuse_defaults[0][0].sewer_infiltrationSatDefZThreshold-patch[0].sat_deficit_z);
-            // Moore et al. 2015; when water is above the empty header, no solute leaching out
-            if(patch[0].sewerdrained>0 && command_line[0].grow_flag > 0){
-                // how? compute_N_leached? here?
-                double tmpNout = 0.0;
-                tmpNout = compute_N_leached(
-                                         command_line[0].verbose_flag,
-                                         patch[0].sat_NO3, //patch[0].soil_ns.nitrate,
-                                         patch[0].sewerdrained,
-                                         patch[0].soil_defaults[0][0].NO3decayRate,
-                                         patch[0].soil_defaults[0][0].active_zone_z,
-                                         patch[0].soil_defaults[0][0].NO3_adsorption_rate,
-                                         29, patch);
-                //printf("patch [%d] sewerdrained(%e) NO3{%e - > %e}\n", patch[0].ID, patch[0].sewerdrained, patch[0].soil_ns.nitrate, tmpNout);
-                patch[0].sewerdrained_NO3 += tmpNout;
-                patch[0].sat_NO3 -= tmpNout; //patch[0].soil_ns.nitrate -= tmpNout;
-    //            if(patch[0].sewerdrained > 0) printf("patch[%d, %d,%d,%d] sewer yields (%e) and %e[%e, %e,%e]\n",
-    //                                                   patch[0].ID, current_date.year,current_date.month,current_date.day,
-    //                                                   patch[0].sewerdrained, patch[0].sewerdrained_NO3, tmpNout,
-    //                                                   patch[0].sat_deficit_z, patch[0].soil_ns.nitrate);
-                
-                tmpNout = compute_N_leached(
-                                         command_line[0].verbose_flag,
-                                         patch[0].sat_NH4, //patch[0].soil_ns.sminn,
-                                         patch[0].sewerdrained,
-                                         patch[0].soil_defaults[0][0].NH4decayRate,
-                                         patch[0].soil_defaults[0][0].active_zone_z,
-                                         patch[0].soil_defaults[0][0].NH4_adsorption_rate,
-                                         32,patch);
-                //printf("patch [%d] sewerdrained(%e) NH4{%e - > %e}\n", patch[0].ID,patch[0].sewerdrained,patch[0].soil_ns.sminn,tmpNout);
-                patch[0].sewerdrained_NH4 += tmpNout;
-                patch[0].sat_NH4 -= tmpNout; //patch[0].soil_ns.sminn -= tmpNout;
 
-                tmpNout = compute_N_leached(
-                                         command_line[0].verbose_flag,
-                                         patch[0].sat_DON, //patch[0].soil_ns.DON,
-                                         patch[0].sewerdrained,
-                                         patch[0].soil_defaults[0][0].DOMdecayRate,
-                                         patch[0].soil_defaults[0][0].active_zone_z,
-                                         patch[0].soil_defaults[0][0].DON_adsorption_rate,
-                                         35,patch);
-                //printf("patch [%d] sewerdrained(%e) DON{%e - > %e}\n", patch[0].ID,patch[0].sewerdrained,patch[0].soil_ns.DON,tmpNout);
-                patch[0].sewerdrained_DON += tmpNout;
-                patch[0].sat_DON -= tmpNout; //patch[0].soil_ns.DON -= tmpNout;
-
-                tmpNout = compute_N_leached(
-                                         command_line[0].verbose_flag,
-                                         patch[0].sat_DOC,//patch[0].soil_cs.DOC,
-                                         patch[0].sewerdrained,
-                                         patch[0].soil_defaults[0][0].DOMdecayRate,
-                                         patch[0].soil_defaults[0][0].active_zone_z,
-                                         patch[0].soil_defaults[0][0].DOC_adsorption_rate,
-                                         38,patch);
-                //printf("patch [%d] sewerdrained(%e) DOC{%e - > %e}\n", patch[0].ID,patch[0].sewerdrained,patch[0].soil_cs.DOC,tmpNout);
-                patch[0].sewerdrained_DOC += tmpNout;
-                patch[0].sat_DOC -= tmpNout; //patch[0].soil_cs.DOC -= tmpNout;
-                
-            }// growth_flag
-        }else{
-            // exfiltration out from sewer
-            patch[0].sewerdrained -= min(min((patch[0].sat_deficit_z-patch[0].landuse_defaults[0][0].sewer_infiltrationSatDefZThreshold)*patch[0].landuse_defaults[0][0].sewer_exfiltrationDepthVol,1.0)*patch[0].landuse_defaults[0][0].sewer_exfiltrationRate,
-                patch[0].sat_deficit_z-patch[0].landuse_defaults[0][0].sewer_infiltrationSatDefZThreshold);
-            // use negative value to indicate exfiltration from the pipe.
-            // count for the filling up process
-            
-            patch[0].sewerdrained_NH4 -= fabs(patch[0].sewerdrained) * patch[0].landuse_defaults[0][0].sewerNH4c;
-            patch[0].sewerdrained_NO3 -= fabs(patch[0].sewerdrained) * patch[0].landuse_defaults[0][0].sewerNO3c; // (kgN/m3) * ["m3/m2" * area m2] / area m2 = kgN/area m2
-            patch[0].sewerdrained_DON -= fabs(patch[0].sewerdrained) * patch[0].landuse_defaults[0][0].sewerDONc;
-            patch[0].sewerdrained_DOC -= fabs(patch[0].sewerdrained) * patch[0].landuse_defaults[0][0].sewerDOCc;
-        }//end of if
-            
-        
-        if(patch[0].soil_ns.nitrate!=patch[0].soil_ns.nitrate || patch[0].soil_ns.nitrate<0 ||
-        patch[0].soil_ns.sminn!=patch[0].soil_ns.sminn || patch[0].soil_ns.sminn<0 ||
-        patch[0].soil_cs.DOC!=patch[0].soil_cs.DOC || patch[0].soil_cs.DOC<0 ||
-        patch[0].sat_NO3!=patch[0].sat_NO3 || patch[0].sat_NO3<0 ||
-        patch[0].sat_NH4!=patch[0].sat_NH4 || patch[0].sat_NH4<0 ||
-        patch[0].sat_DOC!=patch[0].sat_DOC || patch[0].sat_DOC<0 ||
-        patch[0].surface_NO3!=patch[0].surface_NO3 || patch[0].surface_NO3<0 ||
-        patch[0].surface_NH4!=patch[0].surface_NH4 || patch[0].surface_NH4<0 ||
-        patch[0].surface_DOC!=patch[0].surface_DOC || patch[0].surface_DOC<0) printf("patch daily F1N %d-%d-%d [%d,%d,%d,%d] [%e %e %e] [%e %e %e] [%e %e %e]\n",
-           current_date.year, current_date.month, current_date.day,
-           patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionSEWER,
-           patch[0].soil_ns.nitrate,patch[0].soil_ns.sminn,patch[0].soil_cs.DOC,
-           patch[0].sat_NO3,patch[0].sat_NH4,patch[0].sat_DOC,
-           patch[0].surface_NO3,patch[0].surface_NH4,patch[0].surface_DOC);
-        
-        patch[0].sat_deficit += patch[0].sewerdrained;
-        
-        if(patch[0].sat_deficit >= 0){
-            patch[0].sat_deficit = min(patch[0].sat_deficit,patch[0].soil_defaults[0][0].soil_water_cap);
-            patch[0].available_soil_water = patch[0].soil_defaults[0][0].soil_water_cap - patch[0].sat_deficit;
-            patch[0].sat_def_pct = patch[0].sat_deficit * patch[0].soil_defaults[0][0].max_sat_def_1;
-            patch[0].sat_def_pct_index = (int)(patch[0].sat_def_pct*1000);
-            patch[0].sat_def_pct_indexM = 1000*(patch[0].sat_def_pct - patch[0].sat_def_pct_index*0.001);
-            
-            patch[0].sat_deficit_z = patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0][0].sat_def_z[patch[0].sat_def_pct_index+1] + (1.0-patch[0].sat_def_pct_indexM) * patch[0].soil_defaults[0][0].sat_def_z[patch[0].sat_def_pct_index];
-        }else{
-            // surface
-            patch[0].available_soil_water = patch[0].soil_defaults[0][0].soil_water_cap;
-            patch[0].sat_deficit_z = patch[0].sat_deficit;
-            patch[0].sat_def_pct = 0.0;
-            patch[0].sat_def_pct_index = 0;
-            patch[0].sat_def_pct_indexM = 0;
-        }
-        
-        totalfc = patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0][0].fc1_0z[patch[0].sat_def_pct_index+1] + (1.0-patch[0].sat_def_pct_indexM) * patch[0].soil_defaults[0][0].fc1_0z[patch[0].sat_def_pct_index];
-        //totalfc *= (1.0-patch[0].basementFrac); // <---- second thought on this, Oct 8, 2019; basement is 3m at most
-        if (patch[0].sat_deficit < ZERO) {
-            //patch[0].aboveWT_SatPct = 1.0;
-            //patch[0].rootzone.SatPct = 1.0;
-            patch[0].rootzone.field_capacity = 0.0;
-            patch[0].field_capacity = 0.0;
-        } else {
-            patch[0].rootzone.field_capacity = totalfc * patch[0].zeroRootCoef * (patch[0].rootzone_scale_ref*patch[0].rootzone_end_reffc[patch[0].sat_def_pct_index] + (1.0-patch[0].rootzone_scale_ref)*patch[0].rootzone_start_reffc[patch[0].sat_def_pct_index]);
-            patch[0].rootzone.field_capacity = min(patch[0].rootzone.field_capacity,patch[0].rootzone.potential_sat);
-            patch[0].field_capacity = max(0.0,min(patch[0].sat_deficit-patch[0].rootzone.potential_sat, totalfc - patch[0].rootzone.field_capacity));
-        }//if else
-        
-        if(patch[0].sat_deficit!=patch[0].sat_deficit || patch[0].sat_deficit_z!=patch[0].sat_deficit_z || patch[0].rootzone.field_capacity!=patch[0].rootzone.field_capacity || patch[0].field_capacity!=patch[0].field_capacity){
-            printf("patch_daily_F(1): (%d,%d,%d) %lf %lf %lf %lf\n",
-                   patch[0].ID, patch[0].soil_defaults[0][0].ID, patch[0].sat_def_pct_index,
-                   patch[0].sat_deficit, patch[0].sat_deficit_z,
-                   patch[0].rootzone.field_capacity, patch[0].field_capacity);
-        }//debug
-    }// Laurence: this is for SLB
-    
     patch[0].pipedrainYield = 0.0;
     patch[0].pipedrainYield_NO3 = 0.0;
     patch[0].pipedrainYield_NH4 = 0.0;
@@ -890,7 +758,7 @@ void		patch_daily_F(
     patch[0].surface_NH4!=patch[0].surface_NH4 || patch[0].surface_NH4<0 ||
     patch[0].surface_DOC!=patch[0].surface_DOC || patch[0].surface_DOC<0) printf("patch daily F2N %d-%d-%d [%d,%d,%d,%d] [%e %e %e] [%e %e %e] [%e %e %e]\n",
        current_date.year, current_date.month, current_date.day,
-       patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionSEWER,
+       patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionDITCH,
        patch[0].soil_ns.nitrate,patch[0].soil_ns.sminn,patch[0].soil_cs.DOC,
        patch[0].sat_NO3,patch[0].sat_NH4,patch[0].sat_DOC,
        patch[0].surface_NO3,patch[0].surface_NH4,patch[0].surface_DOC);
@@ -1742,7 +1610,7 @@ void		patch_daily_F(
     patch[0].sat_NO3<0 || patch[0].sat_NH4!=patch[0].sat_NH4 ||
     patch[0].sat_NH4<0 ) printf("patch daily F3N %d-%d-%d [%d,%d,%d,%d]{%e,%e,%e,%e}[%e,%e,%e,%e]\n",
        current_date.year, current_date.month, current_date.day,
-       patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionSEWER,
+       patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionDITCH,
        patch[0].soil_ns.nitrate,
        patch[0].soil_ns.sminn,
        patch[0].soil_cs.DOC,
@@ -2405,7 +2273,7 @@ void		patch_daily_F(
     patch[0].surface_NH4!=patch[0].surface_NH4 || patch[0].surface_NH4<0 ||
     patch[0].surface_DOC!=patch[0].surface_DOC || patch[0].surface_DOC<0) printf("patch daily F4N %d-%d-%d [%d,%d,%d,%d] [%e %e %e] [%e %e %e] [%e %e %e]\n",
        current_date.year, current_date.month, current_date.day,
-       patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionSEWER,
+       patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionDITCH,
        patch[0].soil_ns.nitrate,patch[0].soil_ns.sminn,patch[0].soil_cs.DOC,
        patch[0].sat_NO3,patch[0].sat_NH4,patch[0].sat_DOC,
        patch[0].surface_NO3,patch[0].surface_NH4,patch[0].surface_DOC);
@@ -2796,7 +2664,7 @@ void		patch_daily_F(
     patch[0].surface_NH4!=patch[0].surface_NH4 || patch[0].surface_NH4<0 ||
     patch[0].surface_DOC!=patch[0].surface_DOC || patch[0].surface_DOC<0) printf("patch daily F5N %d-%d-%d [%d,%d,%d,%d] [%e %e %e] [%e %e %e] [%e %e %e]\n",
        current_date.year, current_date.month, current_date.day,
-       patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionSEWER,
+       patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionDITCH,
        patch[0].soil_ns.nitrate,patch[0].soil_ns.sminn,patch[0].soil_cs.DOC,
        patch[0].sat_NO3,patch[0].sat_NH4,patch[0].sat_DOC,
        patch[0].surface_NO3,patch[0].surface_NH4,patch[0].surface_DOC);
@@ -2828,7 +2696,7 @@ void		patch_daily_F(
         patch[0].surface_NH4!=patch[0].surface_NH4 || patch[0].surface_NH4<0 ||
         patch[0].surface_DOC!=patch[0].surface_DOC || patch[0].surface_DOC<0) printf("patch daily F6N %d-%d-%d after update decomp [%d,%d,%d,%d] [%e %e %e] [%e %e %e] [%e %e %e]\n",
            current_date.year, current_date.month, current_date.day,
-           patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionSEWER,
+           patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionDITCH,
            patch[0].soil_ns.nitrate,patch[0].soil_ns.sminn,patch[0].soil_cs.DOC,
            patch[0].sat_NO3,patch[0].sat_NH4,patch[0].sat_DOC,
            patch[0].surface_NO3,patch[0].surface_NH4,patch[0].surface_DOC);
@@ -2864,7 +2732,7 @@ void		patch_daily_F(
         patch[0].surface_NH4!=patch[0].surface_NH4 || patch[0].surface_NH4<0 ||
         patch[0].surface_DOC!=patch[0].surface_DOC || patch[0].surface_DOC<0) printf("patch daily F7N after DOloss %d-%d-%d [%d,%d,%d,%d,%e] [%e %e %e] [%e %e %e] [%e %e %e]\n",
            current_date.year, current_date.month, current_date.day,
-           patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionSEWER, patch[0].soil_ns.fract_potential_immob,
+           patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionDITCH, patch[0].soil_ns.fract_potential_immob,
            patch[0].soil_ns.nitrate,patch[0].soil_ns.sminn,patch[0].soil_cs.DOC,
            patch[0].sat_NO3,patch[0].sat_NH4,patch[0].sat_DOC,
            patch[0].surface_NO3,patch[0].surface_NH4,patch[0].surface_DOC);
@@ -2890,7 +2758,7 @@ void		patch_daily_F(
         patch[0].surface_NH4!=patch[0].surface_NH4 || patch[0].surface_NH4<0 ||
         patch[0].surface_DOC!=patch[0].surface_DOC || patch[0].surface_DOC<0) printf("patch daily F8N after nitrif %d-%d-%d [%d,%d,%d,%d] [%e %e %e] [%e %e %e] [%e %e %e]\n",
            current_date.year, current_date.month, current_date.day,
-           patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionSEWER,
+           patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionDITCH,
            patch[0].soil_ns.nitrate,patch[0].soil_ns.sminn,patch[0].soil_cs.DOC,
            patch[0].sat_NO3,patch[0].sat_NH4,patch[0].sat_DOC,
            patch[0].surface_NO3,patch[0].surface_NH4,patch[0].surface_DOC);
@@ -2916,7 +2784,7 @@ void		patch_daily_F(
         patch[0].surface_NH4!=patch[0].surface_NH4 || patch[0].surface_NH4<0 ||
         patch[0].surface_DOC!=patch[0].surface_DOC || patch[0].surface_DOC<0) printf("patch daily F9N after denitrif %d-%d-%d [%d,%d,%d,%d] [%e %e %e] [%e %e %e] [%e %e %e]\n",
               current_date.year, current_date.month, current_date.day,
-              patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionSEWER,
+              patch[0].ID, patch[0].drainage_type, actionPIPEDRAIN, actionDITCH,
               patch[0].soil_ns.nitrate,patch[0].soil_ns.sminn,patch[0].soil_cs.DOC,
               patch[0].sat_NO3,patch[0].sat_NH4,patch[0].sat_DOC,
               patch[0].surface_NO3,patch[0].surface_NH4,patch[0].surface_DOC);
