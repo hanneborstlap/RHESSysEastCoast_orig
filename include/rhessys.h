@@ -43,7 +43,7 @@
 #define actionSTORMDRAIN 3 //LAND; surface storm drainage (bounded by impervious cover fraction); additiona next_stream neighbour
 #define actionGWDRAIN 5    //LAND; GW drainage (from surface to GW); (bounded by 1-impervious cover fraction)
 #define actionRIPARIAN 7  //LAND; receive GW discharge (GW to sub-surface)
-#define actionSEWER 11     //LAND; sewer drainage (subruface water loss, not come back to streamflow) (bounded by non-forest cover fraction)
+#define actionDITCH 11     //LAND; ditch drainage (subruface water loss, not come back to streamflow) (bounded by non-forest cover fraction)
 #define actionPIPEDRAIN 17 //LAND; drainage subsurface water (top 1-m) and route to streamflow
 #define actionIRRIGRATION 13 //LAND; irrigration (bounded by lawn cover fraction)
 #define actionFERTILIZE 13 // same as irrigration adding N to lawn; bounded by lawn cover fraction; LULC give the max fertilize rate (weekly); perhaps apply weekly but in the code it's going to average out daily.
