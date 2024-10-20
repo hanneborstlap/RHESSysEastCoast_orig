@@ -108,7 +108,7 @@ double recompute_gamma(
 
             }//end of for neighbour i loop
            
-            if(patch[0].drainage_type != STREAM){
+            if(patch[0].drainage_type != STREAM && patch[0].drainage_type != DITCH){
                 revised_total_gamma /= totaledge;
                 revised_total_gamma *= patch[0].area;
                 //revised_total_gamma *= patch[0].soil_defaults[0][0].Ksat_0 * (patch[0].soil_defaults[0][0].m>0? patch[0].soil_defaults[0][0].m : 1.0);
