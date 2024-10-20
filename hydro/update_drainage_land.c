@@ -700,19 +700,19 @@ void  update_drainage_land(
                     
                     Nin = (patch[0].surface_innundation_list[d].neighbours[j].gamma * NO3_leached_to_surface) / neigh[0].area;
                     neigh[0].streamflow_NO3 += Nin;
-                    if(neigh[0].ID==command_line[0].outletPatchID && (patch[0].drainage_type!=STREAM || patch[0].drainage_type!=DITCH)){neigh[0].stormdrained_NO3 += Nin;}
+                    if(neigh[0].ID==command_line[0].outletPatchID && (patch[0].drainage_type!=STREAM && patch[0].drainage_type!=DITCH)){neigh[0].stormdrained_NO3 += Nin;}
                     
                     Nin = (patch[0].surface_innundation_list[d].neighbours[j].gamma * NH4_leached_to_surface) / neigh[0].area;
                     neigh[0].streamflow_NH4 += Nin;
-                    if(neigh[0].ID==command_line[0].outletPatchID && (patch[0].drainage_type!=STREAM || patch[0].drainage_type!=DITCH)){neigh[0].stormdrained_NH4 += Nin;}
+                    if(neigh[0].ID==command_line[0].outletPatchID && (patch[0].drainage_type!=STREAM && patch[0].drainage_type!=DITCH)){neigh[0].stormdrained_NH4 += Nin;}
                     
                     Nin = (patch[0].surface_innundation_list[d].neighbours[j].gamma * DON_leached_to_surface) / neigh[0].area;
                     neigh[0].streamflow_DON += Nin;
-                    if(neigh[0].ID==command_line[0].outletPatchID && (patch[0].drainage_type!=STREAM || patch[0].drainage_type!=DITCH)){neigh[0].stormdrained_DON += Nin;}
+                    if(neigh[0].ID==command_line[0].outletPatchID && (patch[0].drainage_type!=STREAM && patch[0].drainage_type!=DITCH)){neigh[0].stormdrained_DON += Nin;}
                     
                     Nin = (patch[0].surface_innundation_list[d].neighbours[j].gamma * DOC_leached_to_surface) / neigh[0].area;
                     neigh[0].streamflow_DOC += Nin;
-                    if(neigh[0].ID==command_line[0].outletPatchID && (patch[0].drainage_type!=STREAM || patch[0].drainage_type!=DITCH)){neigh[0].stormdrained_DOC += Nin;}
+                    if(neigh[0].ID==command_line[0].outletPatchID && (patch[0].drainage_type!=STREAM && patch[0].drainage_type!=DITCH)){neigh[0].stormdrained_DOC += Nin;}
                 }else{
                     Nin = (patch[0].surface_innundation_list[d].neighbours[j].gamma * NO3_leached_to_surface) / neigh[0].area;
                     neigh[0].surface_NO3 += Nin;
