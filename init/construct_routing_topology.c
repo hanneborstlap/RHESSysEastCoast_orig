@@ -223,7 +223,7 @@ struct routing_list_object *construct_routing_topology(char *routing_filename,
             // "stream_gamma" is no use in the model so far
 			patch[0].stream_gamma = 0.0;
 			patch[0].drainage_type = drainage_type;
-			if ( (patch[0].drainage_type != STREAM) && (patch[0].innundation_list[d].gamma < ZERO) ) {
+			if ( (patch[0].drainage_type != STREAM && patch[0].drainage_type % actionDITCH==0) && (patch[0].innundation_list[d].gamma < ZERO) ) {
 				printf(
 						"\n non-stream patches with zero gamma %d switched to stream for now (%d %d %d %lf %lf %lf %lf %lf %d %lf %d)",
 						patch[0].ID,
