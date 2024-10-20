@@ -350,7 +350,7 @@ void compute_subsurface_routing(struct command_line_object *command_line,
 			if ((patch[0].drainage_type == ROAD) && (command_line[0].road_flag == 1)) {
                 // road_flag is always on from commandline
 				update_drainage_road(patch, command_line, time_int, verbose_flag);
-			} else if (patch[0].drainage_type == STREAM) {
+			} else if (patch[0].drainage_type == STREAM || patch[0].drainage_type == DITCH) {
 				update_drainage_stream(patch, command_line, time_int, verbose_flag);
 			} else {
                 // any other codes, e.g.,PAVEDROAD, IMP, RIPARIAN // Sept 7
@@ -758,7 +758,7 @@ void compute_subsurface_routing(struct command_line_object *command_line,
             if ( excess > ZERO && patch[0].detention_store > ZERO ) {
                 detention_store_1 = 1.0 / patch[0].detention_store;
                 
-                if (patch[0].drainage_type == STREAM) {
+                if (patch[0].drainage_type == STREAM || patch[0].drainage_type == DITCH) {
                     // current patch is STREAM grid
                     patch[0].return_flow += excess; // directly add into return_flow at current patch
                     patch[0].detention_store -= excess;
@@ -810,7 +810,7 @@ void compute_subsurface_routing(struct command_line_object *command_line,
                             Nout = NO3_out + NH4_out + DON_out;
                         }//growth flag
                         areaRatio = patch[0].area / neigh[0].area;
-                        if (neigh[0].drainage_type == STREAM) {
+                        if (neigh[0].drainage_type == STREAM || patch[0].drainage_type == DITCH) {
                             neigh[0].Qin_total += Qout * areaRatio;
                             neigh[0].return_flow += Qout * areaRatio;
                             if (grow_flag > 0) {
@@ -1053,7 +1053,7 @@ void compute_subsurface_routing(struct command_line_object *command_line,
         }//debug
         
         // ----------------------------------------- aggregate streamflow from return and base flow
-        if (patch[0].drainage_type == STREAM) {
+        if (patch[0].drainage_type == STREAM || patch[0].drainage_type == DITCH) {
            patch[0].streamflow += patch[0].return_flow
                    + patch[0].base_flow; //something is wrong here
         }
