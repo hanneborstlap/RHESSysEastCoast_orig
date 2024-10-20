@@ -539,51 +539,6 @@ void		patch_daily_F(
     }else irrigation = 0.0;
     //patch[0].landuse_defaults[0][0].irrigation; format change;
     //patch[0].landuse_defaults[0][0].irrigation is used below
-
-	// START OF DITCHES 
-
-    if(patch[0].drainage_type>0 && patch[0].drainage_type % actionDITCH==0){
-	    patch[0].available_soil_water = patch[0].soil_defaults[0][0].soil_water_cap - patch[0].sat_deficit; 
-        patch[0].sat_deficit += patch[0].available_soil_water * strata[0].cover_fraction*0.1; // extraction completed
-        patch[0].ditch_extraction = patch[0].available_soil_water * strata[0].cover_fraction*0.1;
-    } 
-
-	// UPDATING WATER 
-
-if(patch[0].sat_deficit >= 0){
-             patch[0].sat_deficit = min(patch[0].sat_deficit,patch[0].soil_defaults[0][0].soil_water_cap);
-             patch[0].available_soil_water = patch[0].soil_defaults[0][0].soil_water_cap - patch[0].sat_deficit;
-             patch[0].sat_def_pct = patch[0].sat_deficit * patch[0].soil_defaults[0][0].max_sat_def_1;
-             patch[0].sat_def_pct_index = (int)(patch[0].sat_def_pct*1000);
-             patch[0].sat_def_pct_indexM = 1000*(patch[0].sat_def_pct - patch[0].sat_def_pct_index*0.001);
-             
-             patch[0].sat_deficit_z = patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0][0].sat_def_z[patch[0].sat_def_pct_index+1] + (1.0-patch[0].sat_def_pct_indexM) * patch[0].soil_defaults[0][0].sat_def_z[patch[0].sat_def_pct_index];
-         }else{
-             // surface
-             patch[0].available_soil_water = patch[0].soil_defaults[0][0].soil_water_cap;
-             patch[0].sat_deficit_z = patch[0].sat_deficit;
-             patch[0].sat_def_pct = 0.0;
-             patch[0].sat_def_pct_index = 0;
-             patch[0].sat_def_pct_indexM = 0;
-         }
-         
-        totalfc = patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0][0].fc1_0z[patch[0].sat_def_pct_index+1] + (1.0-patch[0].sat_def_pct_indexM) * patch[0].soil_defaults[0][0].fc1_0z[patch[0].sat_def_pct_index];
-         //totalfc *= (1.0-patch[0].basementFrac); // <---- second thought on this, Oct 8, 2019; basement is 3m at most
-         if (patch[0].sat_deficit < ZERO) {
-             //patch[0].aboveWT_SatPct = 1.0;
-             //patch[0].rootzone.SatPct = 1.0;
-             patch[0].rootzone.field_capacity = 0.0;
-             patch[0].field_capacity = 0.0;
-         } else {
-             patch[0].rootzone.field_capacity = totalfc * patch[0].zeroRootCoef * (patch[0].rootzone_scale_ref*patch[0].rootzone_end_reffc[patch[0].sat_def_pct_index] + (1.0-patch[0].rootzone_scale_ref)*patch[0].rootzone_start_reffc[patch[0].sat_def_pct_index]);
-             patch[0].rootzone.field_capacity = min(patch[0].rootzone.field_capacity,patch[0].rootzone.potential_sat);
-             patch[0].field_capacity = max(0.0,min(patch[0].sat_deficit-patch[0].rootzone.potential_sat, totalfc - patch[0].rootzone.field_capacity));
-         }//if else
-         if(patch[0].sat_deficit!=patch[0].sat_deficit || patch[0].sat_deficit_z!=patch[0].sat_deficit_z || patch[0].rootzone.field_capacity!=patch[0].rootzone.field_capacity || patch[0].field_capacity!=patch[0].field_capacity){
-             printf("patch_daily_I(2): (%d,%d,%d) %lf %lf %lf %lf\n", patch[0].ID,
-                    patch[0].sat_deficit, patch[0].sat_deficit_z,
-                    patch[0].rootzone.field_capacity, patch[0].field_capacity);
-         }// END OF DITCHES
     
     patch[0].grassIrrigation_m = 0.0;
     if(command_line[0].grassIrrigation_flag==1 && patch[0].drainage_type>0 && patch[0].drainage_type % actionIRRIGRATION==0){
