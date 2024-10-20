@@ -203,7 +203,7 @@ void  update_drainage_stream(
             }// end of if
             
             // for stream-to-stream only 
-            if(patch[0].innundation_list[d].neighbours[i].patch[0].drainage_type==STREAM && patch[0].innundation_list[d].neighbours[i].gamma>0){
+            if((patch[0].innundation_list[d].neighbours[i].patch[0].drainage_type==STREAM || patch[0].innundation_list[d].neighbours[i].patch[0].drainage_type==DITCH) && patch[0].innundation_list[d].neighbours[i].gamma>0){
                 // "gammaCONST" is topgraphic-based gamma
                 patch[0].innundation_list[d].neighbours[i].gammaCONST = max(0.0, patch[0].z - patch[0].innundation_list[d].neighbours[i].patch[0].z) * patch[0].innundation_list[d].neighbours[i].edgedistance;
                 // "gamma" is previously calculated based on watertable gradiant.
