@@ -99,7 +99,7 @@ double  compute_stream_routing(struct command_line_object *command_line,
 		initial_flow=0.0;
 	   for (j=0; j <stream_network[i].num_lateral_inputs; j++) {
 	            patch=stream_network[i].lateral_inputs[j];
-		   if (patch[0].drainage_type == STREAM  ){
+		   if (patch[0].drainage_type == STREAM || patch[0].drainage_type == DITCH ){
 	      lateral_input_flow += (patch[0].streamflow)*patch[0].area/(3600*24*stream_network[i].length); //unit:m2/s
 			   sum+= (patch[0].streamflow)*patch[0].area;}
 		   
