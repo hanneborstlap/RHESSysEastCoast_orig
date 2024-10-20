@@ -223,7 +223,7 @@ struct routing_list_object *construct_routing_topology(char *routing_filename,
             // "stream_gamma" is no use in the model so far
 			patch[0].stream_gamma = 0.0;
 			patch[0].drainage_type = drainage_type;
-			if ( (patch[0].drainage_type != STREAM) && (patch[0].innundation_list[d].gamma < ZERO) ) {
+			if ( (patch[0].drainage_type != STREAM && patch[0].drainage_type != DITCH) && (patch[0].innundation_list[d].gamma < ZERO) ) {
 				printf(
 						"\n non-stream patches with zero gamma %d switched to stream for now (%d %d %d %lf %lf %lf %lf %lf %d %lf %d)",
 						patch[0].ID,
@@ -248,7 +248,7 @@ struct routing_list_object *construct_routing_topology(char *routing_filename,
 		innundation_list->neighbours = (struct neighbour_object *)alloc(num_neighbours *
 				sizeof(struct neighbour_object), "neighbours", "construct_routing_topology");
 		num_neighbours = assign_neighbours(innundation_list->neighbours, num_neighbours, basin, routing_file);
-		if ((num_neighbours == -9999) && (patch[0].drainage_type != STREAM)) {
+		if ((num_neighbours == -9999) && (patch[0].drainage_type != STREAM && patch[0].drainage_type = DITCH)) {
 			printf("\n WARNING sum of patch %d neigh gamma is not equal to 1.0", patch[0].ID); 
 		} else {
 			innundation_list->num_neighbours = num_neighbours;
