@@ -286,7 +286,7 @@ void compute_subsurface_routing_hourly(
 			if ((patch[0].drainage_type == ROAD) && (command_line[0].road_flag == 1)) {
 				update_drainage_road(patch, command_line, time_int,
 						verbose_flag);
-			} else if (patch[0].drainage_type == STREAM) {
+			} else if (patch[0].drainage_type == STREAM || patch[0].drainage_type == DITCH) {
 				update_drainage_stream(patch, command_line, time_int,
 						verbose_flag);
 			} else {
@@ -514,7 +514,7 @@ void compute_subsurface_routing_hourly(
 						- patch[0].landuse_defaults[0][0].detention_store_size* (1.0 - patch[0].Ksat_vertical)-patch[0].landuse_defaults[0][0].pond_size * patch[0].waterFrac)
 						> ZERO) && (patch[0].detention_store > ZERO)) {
 
-					if (patch[0].drainage_type == STREAM) {
+					if (patch[0].drainage_type == STREAM || patch[0].drainage_type!=DITCH) {
 						if (grow_flag > 0) {
 							patch[0].streamflow_DON += (excess
 									/ patch[0].detention_store)
@@ -586,7 +586,7 @@ void compute_subsurface_routing_hourly(
 										* patch[0].surface_DOC;
 								Nout = NO3_out + NH4_out + DON_out;
 							}
-							if (neigh[0].drainage_type == STREAM) {
+							if (neigh[0].drainage_type == STREAM || neigh[0].drainage_type == DITCH) {
 								neigh[0].Qin_total += Qout * patch[0].area
 										/ neigh[0].area;
 								neigh[0].return_flow += Qout * patch[0].area
@@ -1200,7 +1200,7 @@ void compute_subsurface_routing_hourly(
 			/* accumulate the daily returnflow and baseflow calculated from update_drainage*/
 			/* The N calculation has been completed in update_drainage_***.c routing*/
 			if (current_date.hour == n_timesteps){
-				    if (patch[0].drainage_type == STREAM) {
+				    if (patch[0].drainage_type == STREAM || patch[0].drainage_type == DITCH) {
 					patch[0].streamflow += patch[0].return_flow
 							+ patch[0].base_flow;
 				    }
