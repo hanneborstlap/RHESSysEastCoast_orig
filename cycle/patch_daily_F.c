@@ -543,22 +543,37 @@ void		patch_daily_F(
 	// START OF DITCHES 
 
     if(patch[0].drainage_type>0 && patch[0].drainage_type % actionDITCH==0){
-	    patch[0].available_soil_water = patch[0].soil_defaults[0][0].soil_water_cap - patch[0].sat_deficit; 
-        patch[0].sat_deficit += patch[0].available_soil_water * strata[0].cover_fraction*0.1; // extraction completed
-        patch[0].ditch_extraction = patch[0].available_soil_water * strata[0].cover_fraction*0.1;
+	if (patch[0].sat_deficit_z < 1.0) {
+	patch[0].ditch_extraction = 1.0 - patch[0].sat_deficit_z; 
+        patch[0].sat_deficit_z -= patch[0].ditch_extraction; // extraction completed
+	patch[0].detention_store += patch[0].ditch_extraction // need to check this step, could directly add to runoff 
+	}
     } 
 
 	// UPDATING WATER 
 
 if(patch[0].sat_deficit >= 0){
-             patch[0].sat_deficit = min(patch[0].sat_deficit,patch[0].soil_defaults[0][0].soil_water_cap);
-             patch[0].available_soil_water = patch[0].soil_defaults[0][0].soil_water_cap - patch[0].sat_deficit;
-             patch[0].sat_def_pct = patch[0].sat_deficit * patch[0].soil_defaults[0][0].max_sat_def_1;
-             patch[0].sat_def_pct_index = (int)(patch[0].sat_def_pct*1000);
-             patch[0].sat_def_pct_indexM = 1000*(patch[0].sat_def_pct - patch[0].sat_def_pct_index*0.001);
-             
-             patch[0].sat_deficit_z = patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0][0].sat_def_z[patch[0].sat_def_pct_index+1] + (1.0-patch[0].sat_def_pct_indexM) * patch[0].soil_defaults[0][0].sat_def_z[patch[0].sat_def_pct_index];
-         }else{
+
+	// Find sat_def_pct_index and sat_def_pct_indexM based on sat_deficit_z
+    	patch[0].sat_def_pct_index = 0;
+	// Definitely not the most efficient way of finding sat_def_pct_index? 
+   	while (patch[0].sat_deficit_z > patch[0].soil_defaults[0][0].sat_def_z[patch[0].sat_def_pct_index]) {
+        	patch[0].sat_def_pct_index++;
+    	}
+
+    	patch[0].sat_def_pct_indexM = (patch[0].sat_deficit_z - patch[0].soil_defaults[0][0].sat_def_z[patch[0].sat_def_pct_index-1]) / 
+        (patch[0].soil_defaults[0][0].sat_def_z[patch[0].sat_def_pct_index] - patch[0].soil_defaults[0][0].sat_def_z[patch[0].sat_def_pct_index-1]);
+
+    	patch[0].sat_def_pct = (patch[0].sat_def_pct_index + patch[0].sat_def_pct_indexM) * 0.001; // sat_def_pct is now derived from sat_deficit_z
+	
+    	patch[0].sat_deficit = patch[0].sat_def_pct / patch[0].soil_defaults[0][0].max_sat_def_1;
+    	// Constrain sat_deficit to the soil water capacity (backwards from method starting with sat_deficit) 
+   	patch[0].sat_deficit = min(patch[0].sat_deficit, patch[0].soil_defaults[0][0].soil_water_cap);
+    
+    	// calculate available soil water (probably not even necessary then) 
+    	patch[0].available_soil_water = patch[0].soil_defaults[0][0].soil_water_cap - patch[0].sat_deficit;
+
+	}else{
              // surface
              patch[0].available_soil_water = patch[0].soil_defaults[0][0].soil_water_cap;
              patch[0].sat_deficit_z = patch[0].sat_deficit;
