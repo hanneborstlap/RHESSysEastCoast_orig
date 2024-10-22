@@ -545,7 +545,7 @@ void		patch_daily_F(
     if(patch[0].drainage_type>0 && patch[0].drainage_type % actionDITCH==0){
 	if (patch[0].sat_deficit_z < 1.0) {
 	patch[0].ditch_extraction = 1.0 - patch[0].sat_deficit_z; 
-        patch[0].sat_deficit_z -= patch[0].ditch_extraction; // extraction completed
+        patch[0].sat_deficit_z += patch[0].ditch_extraction; // extraction completed, making sat_deficit_z larger = deeper = removing water
 	patch[0].detention_store += patch[0].ditch_extraction; // need to check this step, could directly add to runoff 
 	}
     } 
