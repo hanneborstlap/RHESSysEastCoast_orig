@@ -173,7 +173,8 @@ void	output_patch(
                     top60cm_storage * 1000.0,
                     top60cm_potential_sat * 1000.0, 
 		patch[0].ditch_extraction,
-		patch[0].soil_defaults[0][0].Ksat_0_v,
+		patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index+1] 
++ (1.0-patch[0].sat_def_pct_indexM) * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index],
 		patch[0].soil_defaults[0][0].Ksat_0
                     );
 	// patch[0].soil_defaults[0][0].Ksat_0_v;
