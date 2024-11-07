@@ -545,7 +545,11 @@ void		patch_daily_F(
     if(patch[0].drainage_type>0 && patch[0].drainage_type % actionDITCH==0){
 	if (patch[0].sat_deficit_z < 1.0) {
 	// patch[0].ditch_extraction = min(patch[0].available_soil_water, max(0.0, 1.0 - patch[0].sat_deficit_z)); 
-	patch[0].ditch_extraction = min(patch[0].available_soil_water, max(0.0, (1.0 - patch[0].sat_deficit_z)*(patch[0].Ksat_vertical*30))); 
+	patch[0].ditch_extraction = min(patch[0].available_soil_water, max(0.0, (1.0 - 
+patch[0].sat_deficit_z)*(patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index+1] 
++ (1.0-patch[0].sat_def_pct_indexM) * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index])*30*(1.0 
+- patch[0].sat_deficit_z))); 
+
 		// min(patch[0].available_soil_water, 0.0005*max(0.0, 1.0-patch[0].sat_deficit_z*0.143));
         patch[0].sat_deficit += patch[0].ditch_extraction; // extraction completed, making sat_deficit_z larger = deeper = removing water
 	patch[0].streamflow += patch[0].ditch_extraction; // need to check this step, could directly add to runoff 
