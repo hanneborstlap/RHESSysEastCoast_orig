@@ -547,7 +547,7 @@ void		patch_daily_F(
 	// patch[0].ditch_extraction = min(patch[0].available_soil_water, max(0.0, 1.0 - patch[0].sat_deficit_z)); 
 	patch[0].ditch_extraction = min(patch[0].available_soil_water, max(0.0, (1.0 - 
 patch[0].sat_deficit_z)*(patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index+1] 
-+ (1.0-patch[0].sat_def_pct_indexM) * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index])*(30/15)*(1.0 
++ (1.0-patch[0].sat_def_pct_indexM) * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index])*(30/15)*(1/900)*(1.0 
 - patch[0].sat_deficit_z))); 
 
 		// min(patch[0].available_soil_water, 0.0005*max(0.0, 1.0-patch[0].sat_deficit_z*0.143));
