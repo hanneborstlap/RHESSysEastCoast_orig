@@ -488,7 +488,8 @@ void add_headers(struct world_output_file_object *world_output_files,
                         "top60cm_potential_sat",
 			"ditch_extraction",
 			"ksat_0_vertical",
-			"ksat_0"
+			"ksat_0",
+			"infiltration"
 						); 
                         // patch daily
 	/*--------------------------------------------------------------*/
