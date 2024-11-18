@@ -478,6 +478,8 @@ void		patch_daily_F(
 	patch[0].snowpack.Q_melt = 0.0;
 	
 	patch[0].LE_soil = 0.0;
+
+	patch[0].infiltration = 0.0; 
 	
 	
 	patch[0].snowpack.K_reflectance = 0.0;
