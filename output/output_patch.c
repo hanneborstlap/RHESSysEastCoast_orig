@@ -176,7 +176,7 @@ void	output_patch(
 		patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index+1] 
 + (1.0-patch[0].sat_def_pct_indexM) * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index],
 		patch[0].soil_defaults[0][0].Ksat_0,
-		patch[0].infiltration;
+		patch[0].infiltration
                     );
 	// patch[0].soil_defaults[0][0].Ksat_0_v;
 	if (check <= 0) {
