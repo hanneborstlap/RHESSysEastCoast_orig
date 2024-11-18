@@ -481,7 +481,6 @@ void		patch_daily_F(
 
 	patch[0].infiltration = 0.0; 
 	
-	
 	patch[0].snowpack.K_reflectance = 0.0;
 	patch[0].snowpack.K_absorptance = 0.0;
 	patch[0].snowpack.PAR_reflectance = 0.0;
@@ -1902,6 +1901,7 @@ patch[0].sat_deficit_z)*(patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0]
 		/*--------------------------------------------------------------*/
 		
 		infiltration = min(infiltration,patch[0].detention_store);
+	    	patch[0].infiltration = infiltration;
 
 		/*--------------------------------------------------------------*/
 		/* now take infiltration out of detention store 	*/
