@@ -139,7 +139,7 @@ void	output_patch(
 
     
 	check = fprintf(outfile,"%d %d %d %d %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf\n",
-                    
+                              // %d %d %d %d %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf\n"
 					current_date.year, current_date.month, current_date.day, //1,2,3,
 					patch[0].ID, //4
                     (patch[0].Qout_total - patch[0].Qin_total) * 1000.0, //5
@@ -158,25 +158,25 @@ void	output_patch(
                     
                     treeLAI, //17
                     nontreeLAI, //18
-                    patch[0].grassIrrigation_m,
+                    patch[0].grassIrrigation_m, // 19
                     
-                    patch[0].rootzone.potential_sat*1000.0,
-                    patch[0].field_capacity*1000.0,
-                    patch[0].rootzone.field_capacity*1000.0,
-                    patch[0].unsat_storage*1000.0,
-                    top12cm_storage * 1000.0,
-                    top12cm_potential_sat * 1000.0,
-                    patch[0].rootzone.depth * 1000.0,
-                    patch[0].soil_defaults[0][0].soil_depth * 1000.0,
-                    top30cm_storage * 1000.0,
-                    top30cm_potential_sat * 1000.0,
-                    top60cm_storage * 1000.0,
-                    top60cm_potential_sat * 1000.0, 
-		patch[0].ditch_extraction,
+                    patch[0].rootzone.potential_sat*1000.0, // 20 
+                    patch[0].field_capacity*1000.0, // 21
+                    patch[0].rootzone.field_capacity*1000.0, // 22 
+                    patch[0].unsat_storage*1000.0, // 23 
+                    top12cm_storage * 1000.0, // 24 
+                    top12cm_potential_sat * 1000.0, // 25 
+                    patch[0].rootzone.depth * 1000.0, // 26 
+                    patch[0].soil_defaults[0][0].soil_depth * 1000.0, // 27
+                    top30cm_storage * 1000.0, // 28
+                    top30cm_potential_sat * 1000.0,  // 29
+                    top60cm_storage * 1000.0, // 30
+                    top60cm_potential_sat * 1000.0,  // 31 
+		patch[0].ditch_extraction,  // 32
 		patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index+1] 
-+ (1.0-patch[0].sat_def_pct_indexM) * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index],
-		patch[0].soil_defaults[0][0].Ksat_0,
-		patch[0].infiltration
++ (1.0-patch[0].sat_def_pct_indexM) * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index], // 33 
+		patch[0].soil_defaults[0][0].Ksat_0,  // 34 
+		patch[0].infiltration  // 35
                     );
 	// patch[0].soil_defaults[0][0].Ksat_0_v;
 	if (check <= 0) {
