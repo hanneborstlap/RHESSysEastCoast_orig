@@ -1871,6 +1871,8 @@ void		patch_daily_F(
 		net_inflow = 0.0;
 		duration = 0.0;
 		if (patch[0].detention_store > ZERO) {
+
+	    if (patch[0].drainage_type % actionDITCH !=0 || (patch[0].drainage_type % actionDITCH==0 && patch[0].sat_deficit_z > 1.0)) {
             
 			/*------------------------------------------------------------------------*/
 			/*	drainage to a deeper groundwater store				  */
@@ -1947,7 +1949,7 @@ void		patch_daily_F(
                 duration,
                 patch[0].soil_defaults[0][0].psi_air_entry);
         
-        } else infiltration = 0.0;
+        }} else infiltration = 0.0;
 
 		if (infiltration < 0.0) {
 			printf("\nInfiltration %lf < 0 for %d on %ld",
