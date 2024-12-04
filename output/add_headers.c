@@ -489,8 +489,9 @@ void add_headers(struct world_output_file_object *world_output_files,
 			"ex_inundation_depth", //32
 			"ex_inundation_dur", //33
 			"SW_infiltration", //34
-			"infiltration", //35 (patch[0].recharge)
-			"unsat_drainage" //36 (vertical drainage from unsat to sat zone) 
+			"ditch_extraction", //35
+			"infiltration", //36 (patch[0].recharge)
+			"unsat_drainage" //37 (vertical drainage from unsat to sat zone) 
 						); 
                         // patch daily
 	/*--------------------------------------------------------------*/
