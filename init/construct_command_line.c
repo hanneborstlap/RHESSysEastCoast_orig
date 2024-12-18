@@ -431,6 +431,25 @@ struct	command_line_object	*construct_command_line(
                        command_line[0].surf_to_gw_coeff_mult);
                 
 			}/* end if */
+
+		/*--------------------------------------------------------------*/
+                /*    check for ditch calibrated params      			*/
+                /*--------------------------------------------------------------*/
+
+		else if ( strcmp(main_argv[i],"-ditch_routing") == 0 ){
+				i++;
+				command_line[0].ditch_routing = 1;
+				if (  (i == main_argc) || (valid_option(main_argv[i])==1) ){
+					fprintf(stderr,
+						"FATAL ERROR: Sensitivity perturbation not specified\n");
+					exit(EXIT_FAILURE);
+				}/*end if*/
+			
+				command_line[0].ditch_routing[R] = (double)atof(main_argv[i]);
+				i++;
+			} /* end if */
+
+				
             /*-------------------------------------------------*/
             /*    scaler to adjust fracDirectNdep      */
             /*-------------------------------------------------*/
