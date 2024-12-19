@@ -439,7 +439,6 @@ struct	command_line_object	*construct_command_line(
 
 		else if ( strcmp(main_argv[i],"-ditch_routing") == 0 ){
 				i++;
-				command_line[0].ditch_routing = 1;
 				if (  (i == main_argc) || (valid_option(main_argv[i])==1) ){
 					fprintf(stderr,
 						"FATAL ERROR: Sensitivity perturbation not specified\n");
