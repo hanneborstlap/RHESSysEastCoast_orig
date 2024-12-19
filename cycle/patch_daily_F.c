@@ -508,6 +508,8 @@ void		patch_daily_F(
 	patch[0].exfiltration_unsat_zone = 0.0;
 	patch[0].exfiltration_sat_zone = 0.0;
 
+	patch[0].ditch_routing = 0.0; 
+
 	patch[0].ditch_extraction = 0.0; 
 	
 	patch[0].T_canopy = zone[0].metv.tavg;
@@ -554,6 +556,9 @@ patch[0].sat_deficit_z)*(patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0]
 		// min(patch[0].available_soil_water, 0.0005*max(0.0, 1.0-patch[0].sat_deficit_z*0.143));
         patch[0].sat_deficit += patch[0].ditch_extraction; // extraction completed, making sat_deficit_z larger = deeper = removing water
 	patch[0].detention_store += patch[0].ditch_extraction*(1-command_line[0].ditch_routing[R]); // need to check this step, could directly add to runoff 
+
+	patch[0].ditch_routing = command_line[0].ditch_routing[R]; 
+	
 	}
     } 
 
