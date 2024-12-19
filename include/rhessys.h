@@ -2076,6 +2076,7 @@ struct  command_line_object
         
         int toptoff_flag; //<<--- turn off topt for GPSN
         double rootdepthz; //<<-- scalar to rooting depth reading from worldfile
+	double ditch_routing; 
         int dynRtZoff_flag; //<<---- disable rooting depth dynamic in growth mode
         double snowT_scaler;
         double snowE_scaler;
