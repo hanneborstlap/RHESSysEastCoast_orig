@@ -545,6 +545,8 @@ void		patch_daily_F(
 
 	// START OF DITCHES 
 
+    patch[0].ditch_routing = command_line[0].ditch_routing; 
+
     if(patch[0].drainage_type>0 && patch[0].drainage_type % actionDITCH==0){
 	if (patch[0].sat_deficit_z < 1.0) {
 	// patch[0].ditch_extraction = min(patch[0].available_soil_water, max(0.0, 1.0 - patch[0].sat_deficit_z)); 
@@ -556,8 +558,6 @@ patch[0].sat_deficit_z)*(patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0]
 		// min(patch[0].available_soil_water, 0.0005*max(0.0, 1.0-patch[0].sat_deficit_z*0.143));
         patch[0].sat_deficit += patch[0].ditch_extraction; // extraction completed, making sat_deficit_z larger = deeper = removing water
 	patch[0].detention_store += patch[0].ditch_extraction*(1-command_line[0].ditch_routing); // need to check this step, could directly add to runoff 
-
-	patch[0].ditch_routing = command_line[0].ditch_routing; 
 	
 	}
     } 
