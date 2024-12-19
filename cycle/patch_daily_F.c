@@ -557,7 +557,7 @@ patch[0].sat_deficit_z)*(patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0]
         patch[0].sat_deficit += patch[0].ditch_extraction; // extraction completed, making sat_deficit_z larger = deeper = removing water
 	patch[0].detention_store += patch[0].ditch_extraction*(1-command_line[0].ditch_routing); // need to check this step, could directly add to runoff 
 
-	patch[0].ditch_routing = command_line[0].ditch_routing[R]; 
+	patch[0].ditch_routing = command_line[0].ditch_routing]; 
 	
 	}
     } 
