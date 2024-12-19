@@ -299,7 +299,7 @@ void	output_24hours_basin(			int routing_flag,
 				if (routing_flag == 1) {
                     if (patch[0].drainage_type == STREAM){
 			astreamflow += patch[0].streamflow*patch[0].area;
-			astreamflow += patch[0].ditch_extraction*command_line[0].ditch_routing*patch[0].area;
+			astreamflow += patch[0].ditch_extraction*patch[0].ditch_routing*patch[0].area;
                         areturn_flow += patch[0].return_flow * patch[0].area; // drainage_stream(): patch[0].return_flow += Delta_detention
                         abase_flow += patch[0].base_flow * patch[0].area; // drainage_stream(): subsurface: route_to_stream
                         astormdrain += patch[0].stormdrained * patch[0].area; // quick drain from land to outlet; but NOT include from upstream to outlet
