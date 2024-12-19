@@ -139,7 +139,7 @@ void	output_patch(
 
     
 	check = fprintf(outfile,"%d %d %d %d %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf\n",
-                              // %d %d %d %d %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf\n"
+                              // %d %d %d %d %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf\n"
 					current_date.year, current_date.month, current_date.day, //1,2,3,
 					patch[0].ID, //4
                     (patch[0].Qout_total - patch[0].Qin_total) * 1000.0, //5
@@ -176,7 +176,8 @@ void	output_patch(
 		patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index+1] 
 + (1.0-patch[0].sat_def_pct_indexM) * patch[0].soil_defaults[0][0].vksat_0zm[patch[0].sat_def_pct_index], // 33 
 		patch[0].soil_defaults[0][0].Ksat_0,  // 34 
-		patch[0].infiltration  // 35
+		patch[0].infiltration,  // 35
+		patch[0].ditch_routing  // 36
                     );
 	// patch[0].soil_defaults[0][0].Ksat_0_v;
 	if (check <= 0) {
