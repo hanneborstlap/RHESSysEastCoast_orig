@@ -104,7 +104,7 @@ struct	command_line_object	*construct_command_line(
 	command_line[0].version_flag = 0;
 	command_line[0].vsen[M] = 1.0;
 	command_line[0].vsen[K] = 1.0;
-	command_line[0].ditch_routing[R] = 1.0; 
+	command_line[0].ditch_routing = 1.0; 
     command_line[0].psen[M] = 1.0;
     command_line[0].psen[K] = 1.0;
 	command_line[0].sen[M] = 1.0;
@@ -446,7 +446,7 @@ struct	command_line_object	*construct_command_line(
 					exit(EXIT_FAILURE);
 				}/*end if*/
 			
-				command_line[0].ditch_routing[R] = (double)atof(main_argv[i]);
+				command_line[0].ditch_routing = (double)atof(main_argv[i]);
 				i++;
 			} /* end if */
 
