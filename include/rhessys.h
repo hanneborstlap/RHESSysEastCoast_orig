@@ -1670,6 +1670,7 @@ struct patch_object
 	double  ex_inundation_dur;
 	double ditch_extraction;
 	double  test_variable;
+	double test; 
         double  septicReleaseQ_m;
         double  sewerdrained; //<------- Spet 28 tracking how much is subsurface sewer drain
             double  sewerdrained_NO3;
