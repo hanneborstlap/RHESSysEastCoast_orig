@@ -527,6 +527,8 @@ void		patch_daily_F(
 
 	patch[0].test_variable = 0.0;
 
+	patch[0].test = 0.0; 
+
 	if ( command_line[0].verbose_flag == -5 ){
         printf("\nPATCH DAILY F:");
 	}
