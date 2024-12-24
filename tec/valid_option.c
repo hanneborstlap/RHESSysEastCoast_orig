@@ -56,6 +56,7 @@ int	 valid_option( char *command_line){
 		(strcmp(command_line,"-s")  == 0) ||
 		(strcmp(command_line,"-z")  == 0) ||
 		(strcmp(command_line,"-sv")  == 0) ||
+		(strcmp(command_line,"-ditch_routing")  == 0) ||
         (strcmp(command_line,"-spor") == 0) ||
 		(strcmp(command_line,"-st")  == 0) ||
 		(strcmp(command_line,"-th")  == 0) ||
@@ -106,6 +107,7 @@ int	 valid_option( char *command_line){
         (strcmp(command_line,"-aggregate_flag") == 0) ||
         (strcmp(command_line,"-gwtoriparian_ID") == 0) ||
         (strcmp(command_line,"-grassIrrigation_flag") == 0) ||
+	(strcmp(command_line,"-ditchextraction_flag") == 0) ||
         (strcmp(command_line,"-fertilizer_flag") == 0) ||
         (strcmp(command_line,"-sewer_flag") == 0) ||
         (strcmp(command_line,"-septicProcess_flag") == 0) || 
