@@ -132,6 +132,7 @@ void	output_24hours_basin(			int routing_flag,
 	alitter_store = 0.0  ;
 	atranspiration = 0.0  ;
 	astreamflow = 0.0;
+	aditchflow = 0.0; 
     astormdrain = 0.0;
     astormdrainNO3 = 0.0;
     astormdrainNH4 = 0.0;
@@ -299,7 +300,6 @@ void	output_24hours_basin(			int routing_flag,
 				if (routing_flag == 1) {
                     if (patch[0].drainage_type == STREAM){
 			astreamflow += patch[0].streamflow*patch[0].area;
-			astreamflow += patch[0].ditch_extraction*patch[0].ditch_routing*patch[0].area;
                         areturn_flow += patch[0].return_flow * patch[0].area; // drainage_stream(): patch[0].return_flow += Delta_detention
                         abase_flow += patch[0].base_flow * patch[0].area; // drainage_stream(): subsurface: route_to_stream
                         astormdrain += patch[0].stormdrained * patch[0].area; // quick drain from land to outlet; but NOT include from upstream to outlet
@@ -308,6 +308,10 @@ void	output_24hours_basin(			int routing_flag,
                         astormdrainDON += patch[0].stormdrained_DON * patch[0].area;
                         astormdrainDOC += patch[0].stormdrained_DOC * patch[0].area;
                     }
+
+		    astreamflow += patch[0].ditch_extraction*patch[0].ditch_routing*patch[0].area;
+		    aditchflow = patch[0].ditch_extraction*patch[0].ditch_routing*patch[0].area;
+					
                     asewerdrain += patch[0].sewerdrained * patch[0].area;
                     asewerdrainNO3 += patch[0].sewerdrained_NO3 * patch[0].area;
                     asewerdrainNH4 += patch[0].sewerdrained_NH4 * patch[0].area;
@@ -447,6 +451,7 @@ void	output_24hours_basin(			int routing_flag,
 	alitter_store /= aarea;
 	atranspiration /= aarea  ;
 	astreamflow /= aarea;
+	aditchflow /= aarea; 
 	apsn /= aarea ;
 	alaiTREE /= aarea;
     alaiGRASS /= aarea;
@@ -543,7 +548,7 @@ void	output_24hours_basin(			int routing_flag,
 	var_acctrans /= aarea;
 				
 
-	fprintf(outfile,"%d %d %d %d %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %e %e %e %e %lf %e %e %e %e %lf %e %e %e %e %lf %lf %lf %lf %lf %lf %lf\n", //added 3 extra
+	fprintf(outfile,"%d %d %d %d %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %e %e %e %e %lf %e %e %e %e %lf %e %e %e %e %lf %lf %lf %lf %lf %lf %lf %lf\n", //added 3 extra
 		date.day,
 		date.month,
 		date.year,
@@ -648,7 +653,8 @@ void	output_24hours_basin(			int routing_flag,
             aPAR,
             unsat_capacity * 1000.0,
             unsat_fc * 1000.0,
-            rtz_fc * 1000.0
+            rtz_fc * 1000.0,
+	    astreamflow * 1000.0
 		);
 	return;
 } /*end output_basin*/
