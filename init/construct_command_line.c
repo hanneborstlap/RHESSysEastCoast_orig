@@ -156,6 +156,7 @@ struct	command_line_object	*construct_command_line(
     command_line[0].fertilizer_flag=0;
     command_line[0].sewer_flag=0;
     command_line[0].septicProcess_flag=0;
+    command_line[0].ditchextraction_flag=0;
 
     command_line[0].sat_to_gw_coeff_mult = 0.0;
     command_line[0].gw_loss_coeff_mult = 0.0;
@@ -347,6 +348,15 @@ struct	command_line_object	*construct_command_line(
             else if ( strcmp(main_argv[i],"-septicProcess_flag") == 0 ){
                 printf("active septicProcess_flag\n");
                 command_line[0].septicProcess_flag = 1;
+                i++;
+            }
+
+	    /*------------------------------------------*/
+            /*Check if the ditchextraction_flag flag is next.           */
+            /*------------------------------------------*/
+            else if ( strcmp(main_argv[i],"-ditchextraction_flag") == 0 ){
+                printf("active ditchextraction_flag\n");
+                command_line[0].ditchextraction_flag = 1;
                 i++;
             }
            
