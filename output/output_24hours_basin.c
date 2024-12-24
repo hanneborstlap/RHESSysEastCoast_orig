@@ -57,6 +57,7 @@ void	output_24hours_basin(			int routing_flag,
 	double asnowpack, aperc_snow, asnowmelt;
 	double atranspiration;
 	double astreamflow;
+	double aditchflow;
     double astormdrain;
     double astormdrainNO3;
     double astormdrainNH4;
