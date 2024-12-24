@@ -2093,6 +2093,7 @@ struct  command_line_object
         int patchPrintTh;
         int aggregate_flag;
         int grassIrrigation_flag;
+	int ditchextraction_flag;
         int fertilizer_flag;
         int sewer_flag;
             int septicProcess_flag;
