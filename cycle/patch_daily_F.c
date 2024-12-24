@@ -547,7 +547,7 @@ void		patch_daily_F(
 
     patch[0].ditch_routing = command_line[0].ditch_routing; 
 
-    if(patch[0].drainage_type>0 && patch[0].drainage_type % actionDITCH==0){
+    if(command_line[0].ditchextraction_flag==1 && patch[0].drainage_type>0 && patch[0].drainage_type % actionDITCH==0){
 	if (patch[0].sat_deficit_z < 1.0) {
 	// patch[0].ditch_extraction = min(patch[0].available_soil_water, max(0.0, 1.0 - patch[0].sat_deficit_z)); 
 	patch[0].ditch_extraction = min(patch[0].available_soil_water, max(0.0, (1.0 - 
