@@ -243,7 +243,8 @@ void add_headers(struct world_output_file_object *world_output_files,
         "PAR",
         "unsat_cap",
         "unsat_fc",
-        "rtz_fc"); // basin daily
+        "rtz_fc",
+	"ditchflow"); // basin daily
 
 	/*--------------------------------------------------------------*/
 	/*	Monthly							*/
