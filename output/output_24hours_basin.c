@@ -311,7 +311,7 @@ void	output_24hours_basin(			int routing_flag,
                     }
 
 		    astreamflow += patch[0].ditch_extraction*patch[0].ditch_routing*patch[0].area;
-		    aditchflow = patch[0].ditch_extraction*patch[0].ditch_routing*patch[0].area;
+		    aditchflow += patch[0].ditch_extraction*patch[0].ditch_routing*patch[0].area;
 					
                     asewerdrain += patch[0].sewerdrained * patch[0].area;
                     asewerdrainNO3 += patch[0].sewerdrained_NO3 * patch[0].area;
