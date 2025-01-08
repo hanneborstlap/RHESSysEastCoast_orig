@@ -545,7 +545,7 @@ void		patch_daily_F(
 
 	// START OF DITCHES 
 
-    patch[0].ditch_routing = command_line[0].ditch_routing; 
+    patch[0].ditch_routing = basin[0].ditch_routing; 
     //patch[0].ditch_routing = command_line[0].ditch_routing*;
 
 
