@@ -101,6 +101,35 @@ void	basin_daily_F(
 	basin[0].snowpack.surface_age = 0.0;
 	basin[0].snowpack.energy_deficit = 0.0;
 	basin[0].snowpack.T = 0.0;
+
+	/*--------------------------------------------------------------*/
+	/*	Calculate ditch routing parameter based on calibration and current basin wide saturation deficit 	*/	
+	/*--------------------------------------------------------------*/
+	
+	for (p=0; p< zone[0].num_patches; p++){
+		basin[0].sat_deficit += patch[0].sat_deficit * patch[0].area;
+		// these next variables don't vary in time, so could define those earlier so they don't have to be recalculated every time?
+		basin[0].sat_min = patch[0].soil_defaults[0][0].soil_water_cap * patch[0].area;
+		basin[0].sat_max = patch[0].soil_defaults[0][0].max_sat_def_1 * patch[0].area;
+		aarea +=  patch[0].area;
+	}
+		basin[0].sat_deficit /= aarea;
+		basin[0].sat_min /= aarea; 
+		basin[0].sat_max /= aarea; 
+
+		// Normalized saturation deficit [N = (X_current - X_min)/(X_max - X_min)]
+		N = (basin[0].sat_deficit-basin[0].sat_min)/(basin[0].sat_max-basin[0].sat_min); 
+
+		// The eventual parameter of ditch routing is a function of saturation deficit. With drier conditions, 
+	        // there will be more water infiltration along the flowpath (lower ditch_routing). During wetter conditions, there will be 
+		// more water routed directly to the watershed outlet (higher ditch_routing).
+
+		// Defined in Patch_daily_F.c and Output_24hrs_basin.c; 
+		// patch[0].detention_store += patch[0].ditch_extraction*(1-ditch_routing)
+		// basin[0].streamflow += patch[0].streamflow*ditch_routing
+	
+		basin[0].ditch_routing = command_line[0].ditch_routing*(1-N);
+	
 	/*--------------------------------------------------------------*/
 	/*	Simulate the hillslopes in this basin for the whole day		*/
 	/*--------------------------------------------------------------*/
