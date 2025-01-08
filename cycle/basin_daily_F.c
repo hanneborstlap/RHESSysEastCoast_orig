@@ -89,6 +89,8 @@ void	basin_daily_F(
 	/*--------------------------------------------------------------*/
 	int	h, z, p,inx;
 	double	scale;
+	double aarea; 
+	double N; 
 	struct	hillslope_object *hillslope;
 	struct	zone_object *zone;
 	struct	patch_object *patch; 
