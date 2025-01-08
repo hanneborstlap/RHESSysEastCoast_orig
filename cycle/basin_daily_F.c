@@ -129,7 +129,7 @@ void	basin_daily_F(
 		// patch[0].detention_store += patch[0].ditch_extraction*(1-ditch_routing)
 		// basin[0].streamflow += patch[0].streamflow*ditch_routing
 	
-		basin[0].ditch_routing = command_line[0].ditch_routing*(1-N);
+		basin[0].ditch_routing = command_line[0].ditch_routing*(1-basin[0].N_satdef);
 	
 	/*--------------------------------------------------------------*/
 	/*	Simulate the hillslopes in this basin for the whole day		*/
