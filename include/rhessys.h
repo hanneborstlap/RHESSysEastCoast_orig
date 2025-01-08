@@ -360,6 +360,11 @@ struct basin_object
         double  theta_noon;             /*      rads    */
         double  sin_latitude;           /*      DIM     */
         double  max_slope;              /*      degrees */
+
+	double sat_deficit; 
+	double sat_min; 
+	double sat_max; 
+	double ditch_routing; 
         
         /*      used in subsurface computation          */
         double basin_outflow;
