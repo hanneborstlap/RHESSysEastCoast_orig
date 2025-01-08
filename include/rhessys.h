@@ -365,6 +365,7 @@ struct basin_object
 	double sat_min; 
 	double sat_max; 
 	double ditch_routing; 
+	double N_satdef;
         
         /*      used in subsurface computation          */
         double basin_outflow;
