@@ -546,7 +546,7 @@ void		patch_daily_F(
 	// START OF DITCHES 
 
     patch[0].ditch_routing = command_line[0].ditch_routing; 
-    patch[0].ditch_routing = command_line[0].ditch_routing*;
+    //patch[0].ditch_routing = command_line[0].ditch_routing*;
 
 
     if(command_line[0].ditchextraction_flag==1 && patch[0].drainage_type>0 && patch[0].drainage_type % actionDITCH==0){
