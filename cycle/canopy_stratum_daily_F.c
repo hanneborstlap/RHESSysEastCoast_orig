@@ -335,6 +335,8 @@ void	canopy_stratum_daily_F(
 	double max_snow_albedo_increase, wetfrac;
 	double deltaT;
 
+	double solar_frac; 
+
 	struct	psnin_struct	psnin;
 	struct	psnout_struct	psnout;
 	struct mortality_struct mort;
@@ -405,24 +407,65 @@ void	canopy_stratum_daily_F(
 	/*	Initialize temporary variables for transmitted fluxes.	*/
 	/*--------------------------------------------------------------*/
 	
-    if(stratum[0].rain_stored<0){
-        printf("bad rain_stored (F): %d,%d,%d,%lf\n",
-               patch[0].ID,stratum[0].ID, stratum[0].defaults[0][0].ID,stratum[0].rain_stored);
-        stratum[0].rain_stored = 0.0;
-    }//debug
-    
-    // these patch[0].variables are the remained from previous layer; need to convert information to unit square unit for the unit sq. veg model (Nov 18, 2018, Laurence Lin)
-    Kdown_diffuse = min(patch[0].Kdown_diffuse / (stratum[0].cover_fraction), zone[0].Kdown_diffuse);
-	Kup_diffuse = patch[0].Kup_diffuse;//<--- calculated from here
-	PAR_diffuse = min(patch[0].PAR_diffuse / (stratum[0].cover_fraction), zone[0].PAR_diffuse);
+    	if(stratum[0].rain_stored<0){
+        	printf("bad rain_stored (F): %d,%d,%d,%lf\n",
+               	patch[0].ID,stratum[0].ID, stratum[0].defaults[0][0].ID,stratum[0].rain_stored);
+        	stratum[0].rain_stored = 0.0;
+    	}//debug
+
+	// START OF SOLAR EDITS 
 	
-    Kdown_direct = min(patch[0].Kdown_direct / (stratum[0].cover_fraction), zone[0].Kdown_direct);
-	Kup_direct = patch[0].Kup_direct;//<--- calculated from here
-	PAR_direct = min(patch[0].PAR_direct / (stratum[0].cover_fraction), zone[0].PAR_direct);
+	solar_frac = 0.4;
 	
-    rain_throughfall = min(patch[0].rain_throughfall / (stratum[0].cover_fraction), zone[0].rain);
-	snow_throughfall = min(patch[0].snow_throughfall / (stratum[0].cover_fraction), zone[0].snow);
-    
+	if(stratum[0].defaults[0][0].ID == 99){
+		// The solar panel area of a patch, where 
+		// 1) all direct radiation is blocked and only diffused radiation reach below panels
+		// 2) no rainfall, will be routed to nearby open space
+		Kdown_diffuse = min(patch[0].Kdown_diffuse / (stratum[0].cover_fraction), zone[0].Kdown_diffuse);
+		Kup_diffuse = patch[0].Kup_diffuse;//<--- calculated from here
+		PAR_diffuse = min(patch[0].PAR_diffuse / (stratum[0].cover_fraction), zone[0].PAR_diffuse);
+
+		// Note: all changed to 0
+    	Kdown_direct = min(patch[0].Kdown_direct / (stratum[0].cover_fraction), 0); 
+		Kup_direct = 0;//<--- calculated from here
+		PAR_direct = min(patch[0].PAR_direct / (stratum[0].cover_fraction), 0);
+	
+    	rain_throughfall = min(patch[0].rain_throughfall / (stratum[0].cover_fraction),0);
+		snow_throughfall = min(patch[0].snow_throughfall / (stratum[0].cover_fraction), 0);
+	}
+		
+	else if(stratum[0].defaults[0][0].ID == 98){
+		// The open space between solar panels, where
+		// 1) radiation as usual
+		// 2) receive additional rainfall from solar panel area
+		Kdown_diffuse = min(patch[0].Kdown_diffuse / (stratum[0].cover_fraction), zone[0].Kdown_diffuse);
+		Kup_diffuse = patch[0].Kup_diffuse;//<--- calculated from here
+		PAR_diffuse = min(patch[0].PAR_diffuse / (stratum[0].cover_fraction), zone[0].PAR_diffuse);
+	
+    	Kdown_direct = min(patch[0].Kdown_direct / (stratum[0].cover_fraction), zone[0].Kdown_direct);
+		Kup_direct = patch[0].Kup_direct;//<--- calculated from here
+		PAR_direct = min(patch[0].PAR_direct / (stratum[0].cover_fraction), zone[0].PAR_direct);
+
+		// Rain/snow at solar is added to open space
+		rain_throughfall = min(patch[0].rain_throughfall / (stratum[0].cover_fraction)+patch[0].rain_throughfall*solar_frac, zone[0].rain+patch[0].rain_throughfall*solar_frac);
+		snow_throughfall = min(patch[0].snow_throughfall / (stratum[0].cover_fraction)+patch[0].snow_throughfall*solar_frac, zone[0].snow+patch[0].snow_throughfall*solar_frac);
+	}
+		
+	else{
+		// Original routing for other spaces without solar panel
+		Kdown_diffuse = min(patch[0].Kdown_diffuse / (stratum[0].cover_fraction), zone[0].Kdown_diffuse);
+		Kup_diffuse = patch[0].Kup_diffuse;//<--- calculated from here
+		PAR_diffuse = min(patch[0].PAR_diffuse / (stratum[0].cover_fraction), zone[0].PAR_diffuse);
+	
+    	Kdown_direct = min(patch[0].Kdown_direct / (stratum[0].cover_fraction), zone[0].Kdown_direct);
+		Kup_direct = patch[0].Kup_direct;//<--- calculated from here
+		PAR_direct = min(patch[0].PAR_direct / (stratum[0].cover_fraction), zone[0].PAR_direct);
+	
+    	rain_throughfall = min(patch[0].rain_throughfall / (stratum[0].cover_fraction), zone[0].rain);
+		snow_throughfall = min(patch[0].snow_throughfall / (stratum[0].cover_fraction), zone[0].snow);
+	}    
+
+	// END OF SOLAR EDITS 
     
 	ga = patch[0].ga;
 	gasnow = patch[0].gasnow;
