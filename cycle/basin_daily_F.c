@@ -110,8 +110,9 @@ void	basin_daily_F(
 	for (p=0; p< zone[0].num_patches; p++){
 		basin[0].sat_deficit += patch[0].sat_deficit * patch[0].area;
 		// these next variables don't vary in time, so could define those earlier so they don't have to be recalculated every time?
-		basin[0].sat_min = patch[0].soil_defaults[0][0].soil_water_cap * patch[0].area;
-		basin[0].sat_max = patch[0].soil_defaults[0][0].max_sat_def_1 * patch[0].area;
+		// basin[0].sat_min = patch[0].soil_defaults[0][0].soil_water_cap * patch[0].area;
+		basin[0].sat_min = 0;
+		basin[0].sat_max = patch[0].soil_defaults[0][0].soil_water_cap * patch[0].area;
 		aarea +=  patch[0].area;
 	}
 		basin[0].sat_deficit /= aarea;
