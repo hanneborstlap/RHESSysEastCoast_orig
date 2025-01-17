@@ -121,6 +121,9 @@ void	basin_daily_F(
 				basin[0].sat_max = patch[0].soil_defaults[0][0].soil_water_cap * patch[0].area;
 				aarea +=  patch[0].area;
 			}
+
+		}
+	}
 		
 		basin[0].sat_deficit /= aarea;
 		basin[0].sat_min /= aarea; 
