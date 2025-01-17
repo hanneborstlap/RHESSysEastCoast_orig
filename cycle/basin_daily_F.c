@@ -106,15 +106,22 @@ void	basin_daily_F(
 	/*--------------------------------------------------------------*/
 	/*	Calculate ditch routing parameter based on calibration and current basin wide saturation deficit 	*/	
 	/*--------------------------------------------------------------*/
-	
-	for (p=0; p< zone[0].num_patches; p++){
-		basin[0].sat_deficit += patch[0].sat_deficit * patch[0].area;
-		// these next variables don't vary in time, so could define those earlier so they don't have to be recalculated every time?
-		// basin[0].sat_min = patch[0].soil_defaults[0][0].soil_water_cap * patch[0].area;
-		basin[0].sat_min = 0;
-		basin[0].sat_max = patch[0].soil_defaults[0][0].soil_water_cap * patch[0].area;
-		aarea +=  patch[0].area;
-	}
+	for (h=0; h < basin[0].num_hillslopes; h++){
+		hillslope = basin[0].hillslopes[h];
+
+		for (z=0; z< hillslope[0].num_zones; z++){
+			zone = hillslope[0].zones[z];
+			
+			for (p=0; p< zone[0].num_patches; p++){
+				patch = zone[0].patches[p];
+				basin[0].sat_deficit += patch[0].sat_deficit * patch[0].area;
+				// these next variables don't vary in time, so could define those earlier so they don't have to be recalculated every time?
+				// basin[0].sat_min = patch[0].soil_defaults[0][0].soil_water_cap * patch[0].area;
+				basin[0].sat_min = 0;
+				basin[0].sat_max = patch[0].soil_defaults[0][0].soil_water_cap * patch[0].area;
+				aarea +=  patch[0].area;
+			}
+		
 		basin[0].sat_deficit /= aarea;
 		basin[0].sat_min /= aarea; 
 		basin[0].sat_max /= aarea; 
