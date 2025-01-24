@@ -130,7 +130,7 @@ void	basin_daily_F(
 		basin[0].sat_max /= aarea; 
 
 		// Normalized saturation deficit [N = (X_current - X_min)/(X_max - X_min)]
-		basin[0].N_satdef = (basin[0].sat_deficit) //v-basin[0].sat_min)/(basin[0].sat_max-basin[0].sat_min); 
+		basin[0].N_satdef = (basin[0].sat_deficit); //v-basin[0].sat_min)/(basin[0].sat_max-basin[0].sat_min); 
 
 		// The eventual parameter of ditch routing is a function of saturation deficit. With drier conditions, 
 	        // there will be more water infiltration along the flowpath (lower ditch_routing). During wetter conditions, there will be 
