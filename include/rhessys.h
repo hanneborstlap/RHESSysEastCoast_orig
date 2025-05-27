@@ -366,6 +366,9 @@ struct basin_object
 	double sat_max; 
 	double ditch_routing; 
 	double N_satdef;
+
+	double crop_infiltration; 
+	double crop_overlandflow;
         
         /*      used in subsurface computation          */
         double basin_outflow;
@@ -1722,6 +1725,9 @@ struct patch_object
 
 	    double ditch_extraction; 
 	    double ditch_routing; 
+
+	    double crop_infiltration; 
+            double crop_overlandflow; 
             
             double* rootzone_start_reffc;
             double* rootzone_end_reffc;
