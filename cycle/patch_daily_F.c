@@ -1945,6 +1945,18 @@ patch[0].sat_deficit_z)*(patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0]
                patch[0].sat_deficit, patch[0].sat_deficit_z,
                patch[0].rootzone.field_capacity, patch[0].field_capacity);
     }//debug
+
+	/*--------------------------------------------------------------*/
+	// CODE FOR DITCH OUTPUT PARAMETERS (nothing really is happening here other than setting variables to later calculate the
+	// infiltration taking place on croplands)
+	/*--------------------------------------------------------------*/
+
+ 	for ( j=0 ; j<patch[0].num_canopy_strata ; j++ ){
+		if(patch[0].canopy_strata[j][0].defaults[0][0].ID == 7){
+			patch[0].crop_infiltration += infiltration;
+	    		patch[0].crop_overlandflow += patch[0].detention_store - patch[0].landuse_defaults[0][0].detention_store_size;
+		}
+	}
     
 	/*--------------------------------------------------------------*/
 	/*	Calculate patch level transpiration			*/
@@ -2836,18 +2848,6 @@ patch[0].sat_deficit_z)*(patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0]
     patch[0].theta_std += patch[0].soil_defaults[0][0].theta_mean_std_p1 * (patch[0].soil_defaults[0][0].active_zone_sat_0z*theta);
     patch[0].theta_std = max(0.0, patch[0].theta_std);
 
-
-/*--------------------------------------------------------------*/
-// CODE FOR DITCH OUTPUT PARAMETERS (nothing really is happening here other than setting variables to later calculate the
-// infiltration taking place on croplands)
-/*--------------------------------------------------------------*/
-
- for ( j=0 ; j<patch[0].num_canopy_strata ; j++ ){
-	if(patch[0].canopy_strata[j][0].defaults[0][0].ID == 7){
-		patch[0].crop_infiltration += infiltration;
-	    	patch[0].crop_overlandflow += patch[0].detention_store;
-		}
-	}
     
     /*-----------------------------------------------------*/
     /*  snow related   */
