@@ -312,6 +312,9 @@ void	output_24hours_basin(			int routing_flag,
 
 		    astreamflow += patch[0].ditch_extraction*patch[0].ditch_routing*patch[0].area;
 		    aditchflow += patch[0].ditch_extraction*patch[0].ditch_routing*patch[0].area;
+
+		    acrop_infiltration += patch[0].crop_infiltration * patch[0].area; 
+		    acrop_overlandflow += patch[0].crop_overlandflow * patch[0].area; 
 					
                     asewerdrain += patch[0].sewerdrained * patch[0].area;
                     asewerdrainNO3 += patch[0].sewerdrained_NO3 * patch[0].area;
@@ -549,7 +552,7 @@ void	output_24hours_basin(			int routing_flag,
 	var_acctrans /= aarea;
 				
 
-	fprintf(outfile,"%d %d %d %d %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %e %e %e %e %lf %e %e %e %e %lf %e %e %e %e %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf\n", //added 3 extra
+	fprintf(outfile,"%d %d %d %d %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %e %e %e %e %lf %e %e %e %e %lf %e %e %e %e %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf\n", //added 3 extra
 		date.day,
 		date.month,
 		date.year,
@@ -657,7 +660,9 @@ void	output_24hours_basin(			int routing_flag,
             rtz_fc * 1000.0,
 	    aditchflow * 1000.0,
 	    basin[0].N_satdef,
-	basin[0].ditch_routing
+	basin[0].ditch_routing,
+	 acrop_infiltration,
+	 acrop_overlandflow
 		);
 	return;
 } /*end output_basin*/
