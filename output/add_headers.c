@@ -493,7 +493,9 @@ void add_headers(struct world_output_file_object *world_output_files,
 			"ksat_0_vertical",
 			"ksat_0",
 			"infiltration", 
-			"ditch_routig" 
+			"ditch_routing",
+			"crop_infiltration", 
+			"crop_overlandflow"
 						); 
                         // patch daily
 	/*--------------------------------------------------------------*/
