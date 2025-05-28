@@ -134,6 +134,8 @@ void	output_24hours_basin(			int routing_flag,
 	atranspiration = 0.0  ;
 	astreamflow = 0.0;
 	aditchflow = 0.0; 
+	acrop_infiltration = 0.0; 
+	acrop_overlandflow = 0.0; 
     astormdrain = 0.0;
     astormdrainNO3 = 0.0;
     astormdrainNH4 = 0.0;
@@ -456,6 +458,8 @@ void	output_24hours_basin(			int routing_flag,
 	atranspiration /= aarea  ;
 	astreamflow /= aarea;
 	aditchflow /= aarea; 
+	acrop_infiltration /= aarea; 
+	acrop_overlandflow /= aarea; 
 	apsn /= aarea ;
 	alaiTREE /= aarea;
     alaiGRASS /= aarea;
@@ -661,8 +665,8 @@ void	output_24hours_basin(			int routing_flag,
 	    aditchflow * 1000.0,
 	    basin[0].N_satdef,
 	basin[0].ditch_routing,
-	 acrop_infiltration,
-	 acrop_overlandflow
+	 acrop_infiltration * 1000.0,
+	 acrop_overlandflow * 1000.0
 		);
 	return;
 } /*end output_basin*/
