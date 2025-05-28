@@ -1952,7 +1952,7 @@ patch[0].sat_deficit_z)*(patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0]
 	/*--------------------------------------------------------------*/
 
  	for ( j=0 ; j<patch[0].num_canopy_strata ; j++ ){
-		if(patch[0].canopy_strata[j][0].defaults[0][0].ID == 7){
+		if(patch[0].canopy_strata[j][0].defaults[0][0].ID == 7 || patch[0].canopy_strata[j][0].defaults[0][0].ID == 8){
 			patch[0].crop_infiltration += infiltration;
 	    		patch[0].crop_overlandflow += patch[0].detention_store - patch[0].landuse_defaults[0][0].detention_store_size;
 		}
