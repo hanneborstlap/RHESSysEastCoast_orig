@@ -58,6 +58,8 @@ void	output_24hours_basin(			int routing_flag,
 	double atranspiration;
 	double astreamflow;
 	double aditchflow;
+	double acrop_infiltration; 
+	double acrop_overlandflow; 
     double astormdrain;
     double astormdrainNO3;
     double astormdrainNH4;
