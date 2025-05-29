@@ -480,6 +480,9 @@ void		patch_daily_F(
 	patch[0].LE_soil = 0.0;
 
 	patch[0].infiltration = 0.0; 
+
+	patch[0].crop_infiltration = 0.0;
+	patch[0].crop_overlandflow = 0.0; 
 	
 	patch[0].snowpack.K_reflectance = 0.0;
 	patch[0].snowpack.K_absorptance = 0.0;
