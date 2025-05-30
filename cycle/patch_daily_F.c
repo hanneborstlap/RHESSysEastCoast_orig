@@ -399,6 +399,7 @@ void		patch_daily_F(
 	double	water_above_field_cap;
 	double	water_below_field_cap;
 	double 	duration, irrigation;
+	double crop_infiltration; 
 	double	snow_melt_input;
 	double  fertilizer_NO3, fertilizer_NH4;
 	double	resp, transpiration_reduction_percent;
@@ -1956,7 +1957,13 @@ patch[0].sat_deficit_z)*(patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0]
 
  	for ( j=0 ; j<patch[0].num_canopy_strata ; j++ ){
 		if(patch[0].canopy_strata[j][0].defaults[0][0].ID == 7 || patch[0].canopy_strata[j][0].defaults[0][0].ID == 8){
-			patch[0].crop_infiltration += infiltration;
+	    		if (isnan(infiltration)) {
+    				crop_infiltration = 0.0;
+			} else {
+    				crop_infiltration = fmin(0.0, infiltration);
+			}
+
+			patch[0].crop_infiltration += crop_infiltration;
 	    		patch[0].crop_overlandflow += patch[0].detention_store - patch[0].landuse_defaults[0][0].detention_store_size;
 		}
 	}
