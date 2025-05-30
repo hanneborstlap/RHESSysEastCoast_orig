@@ -146,6 +146,8 @@ void compute_subsurface_routing(struct command_line_object *command_line,
 		patch[0].streamflow = 0.0;
 		patch[0].return_flow = 0.0;
 		patch[0].base_flow = 0.0;
+
+	patch[0].crop_overlandflow = 0.0; 
         
         patch[0].gw_drainage = 0.0; 
         patch[0].gw_diffuse = 0.0;
