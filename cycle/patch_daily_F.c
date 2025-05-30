@@ -1965,7 +1965,7 @@ patch[0].sat_deficit_z)*(patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0]
 	    		if (isnan(infiltration)) {
     				crop_infiltration = 0.0;
 			} else {
-    				crop_infiltration = fmin(0.0, infiltration);
+    				crop_infiltration = fmax(0.0, infiltration);
 			}
 
 			patch[0].crop_infiltration += crop_infiltration;
