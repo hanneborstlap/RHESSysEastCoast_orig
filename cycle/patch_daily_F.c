@@ -1914,7 +1914,12 @@ patch[0].sat_deficit_z)*(patch[0].sat_def_pct_indexM * patch[0].soil_defaults[0]
 		/*--------------------------------------------------------------*/
 		
 		infiltration = min(infiltration,patch[0].detention_store);
-	    	patch[0].infiltration = infiltration;
+
+	    	if (!isnan(infiltration)) {
+    			patch[0].infiltration = infiltration;
+		} else {
+    			patch[0].infiltration = 0.0;
+		}
 
 		/*--------------------------------------------------------------*/
 		/* now take infiltration out of detention store 	*/
