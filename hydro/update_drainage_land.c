@@ -555,6 +555,12 @@ void  update_drainage_land(
 		}//
     
     patch[0].overland_flow += return_flow;
+
+	for ( j=0 ; j<patch[0].num_canopy_strata ; j++ ){
+		if(patch[0].canopy_strata[j][0].defaults[0][0].ID == 7 || patch[0].canopy_strata[j][0].defaults[0][0].ID == 8){
+	    		patch[0].crop_overlandflow += fmin(0.0, (return_flow));
+		}
+	}
     
 	/*--------------------------------------------------------------*/
 	/*	route water and nitrogen lossed due to infiltration excess */
