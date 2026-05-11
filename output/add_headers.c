@@ -518,7 +518,7 @@ void add_headers(struct world_output_file_object *world_output_files,
         "meanLAI", //10
         "psn",
 		"sat_chance" //12
-		)
+		);
 	/*--------------------------------------------------------------*/
 	/*	Yearly							*/
 	/*--------------------------------------------------------------*/
