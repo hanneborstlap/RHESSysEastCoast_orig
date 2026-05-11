@@ -1431,6 +1431,7 @@ struct accumulate_patch_object
     double PET;
     double ET;
     double sat_deficit_z;
+	double sat_deficit_z_min;
     double peakLAI;
     double meanLAI;
     double psn;
