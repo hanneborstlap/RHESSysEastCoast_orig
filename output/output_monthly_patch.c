@@ -49,7 +49,7 @@ void	output_monthly_patch(
     patch[0].acc_month.peakLAI,
     patch[0].acc_month.meanLAI/ patch[0].acc_month.days, //9
     patch[0].acc_month.psn*1000.0,
-    patch[0].acc_month.satChance/ patch[0].acc_month.days, //11
+    patch[0].acc_month.satChance/ patch[0].acc_month.days //11
     );
     
   
