@@ -223,7 +223,7 @@ void	execute_monthly_output_event(
                                     world[0].basins[b]->hillslopes[h]->zones[z]->patches[p]->acc_month.PET = 0.0;
                                     world[0].basins[b]->hillslopes[h]->zones[z]->patches[p]->acc_month.ET = 0.0;
                                     world[0].basins[b]->hillslopes[h]->zones[z]->patches[p]->acc_month.sat_deficit_z = 0.0;
-									world[0].basins[b]->hillslopes[h]->zones[z]->patches[p]->min_month.sat_deficit_z = 0.0;
+									world[0].basins[b]->hillslopes[h]->zones[z]->patches[p]->acc_month.sat_deficit_z_min = 0.0;
                                     world[0].basins[b]->hillslopes[h]->zones[z]->patches[p]->acc_month.peakLAI = 0.0;
                                     world[0].basins[b]->hillslopes[h]->zones[z]->patches[p]->acc_month.meanLAI = 0.0;
                                     world[0].basins[b]->hillslopes[h]->zones[z]->patches[p]->acc_month.psn = 0.0;
