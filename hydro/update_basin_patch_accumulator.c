@@ -130,6 +130,11 @@ void update_basin_patch_accumulator(
                 patch[0].acc_month.ET += (patch[0].transpiration_sat_zone + patch[0].transpiration_unsat_zone + patch[0].evaporation + patch[0].evaporation_surf  + patch[0].exfiltration_sat_zone + patch[0].exfiltration_unsat_zone);
                 patch[0].acc_month.sat_deficit_z += patch[0].sat_deficit_z;
 				patch[0].acc_month.sat_deficit_z_min = min(patch[0].acc_month.sat_deficit_z, patch[0].sat_deficit_z);
+
+				double septic_threshold = 0.9; 
+				if (patch[0].sat_deficit_z < septic_threshold) {
+    			patch[0].acc_month.sat_deficit_z_abv_th += 1.0;}
+				
                 patch[0].acc_month.peakLAI = max(patch[0].acc_month.peakLAI,alai);
                 patch[0].acc_month.meanLAI += alai;
                 patch[0].acc_month.psn += patch[0].net_plant_psn;
