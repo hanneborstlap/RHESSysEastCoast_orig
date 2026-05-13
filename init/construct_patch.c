@@ -925,6 +925,7 @@ struct patch_object *construct_patch(
     patch[0].acc_month.ET = 0.0;
     patch[0].acc_month.sat_deficit_z = 0.0;
 	patch[0].acc_month.sat_deficit_z_min = 0.0; 
+	patch[0].acc_month.sat_deficit_z_abv_th = 0.0;
     patch[0].acc_month.peakLAI = 0.0;
     patch[0].acc_month.psn = 0.0;
     patch[0].acc_month.days = 0.0;
